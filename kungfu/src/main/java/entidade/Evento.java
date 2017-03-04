@@ -9,18 +9,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="evento", schema="kungfu")
-@SequenceGenerator(schema="kungfu", allocationSize=1, name="sq_id_evento")
+@Table(name="evento", schema="public")
+@SequenceGenerator(schema="public", allocationSize=1, name="sq_id_evento")
 public class Evento
 {
   @Id
   @Column(name="id_evento", unique=true, nullable=false)
   @GeneratedValue(generator="sq_id_evento", strategy=GenerationType.IDENTITY)
   private Long id;
+  
   @Column(name="codigo")
   private String codigo;
+  
   @Column(name="descricao")
   private String descricao;
+  
   @Column(name="pontuacao")
   private String pontuacao;
   

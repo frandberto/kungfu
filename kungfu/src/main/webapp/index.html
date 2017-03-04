@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="buildApp">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIGPRO - Situação das Publicações de Builds</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIGPRO - Situação das Publicações de Builds</title>
 
 <style>
 table {
@@ -39,25 +39,24 @@ tr:nth-child(even) {
 	<script src="js/modal.js"></script>
 
 	<h1>SIGPRO</h1>
-    <hr>
-    <div ng-controller="accordionUICtrl">
-		    <uib-accordion>
-			    <div uib-accordion-group class="panel-default" heading="Publicar Builds">
-				    <label for="nrBuild">Número Build: </label>				    
-				    <select name="nrBuild" id="nrBuild" >
-				     <option ng-repeat="numero in numerosBuilds" value="{{numero}}" >{{numero.toString()}}</option>
-				    </select>
-				    
-				    <label for="ambiente">Ambiente: </label>
-				    <select name="ambiente" id="ambiente">
-				     <option ng-repeat="ambiente in ambientes" value="{{ambiente.sigla}}" >{{ambiente.nome}}</option>
-				    </select>
-				    <input type="button" value="Publicar" onclick="publicar(document.getElementById('nrBuild'), document.getElementById('ambiente'))" />		    
-			    </div>
-			</uib-accordion>
+	<hr>
+	<div ng-controller="accordionUICtrl">
+		<uib-accordion>
+		<div uib-accordion-group class="panel-default"
+			heading="Publicar Builds">
+			<label for="nrBuild">Número Build: </label> <select name="nrBuild"
+				id="nrBuild">
+				<option ng-repeat="numero in numerosBuilds" value="{{numero}}">{{numero.toString()}}</option>
+			</select> <label for="ambiente">Ambiente: </label> <select name="ambiente"
+				id="ambiente">
+				<option ng-repeat="ambiente in ambientes" value="{{ambiente.sigla}}">{{ambiente.nome}}</option>
+			</select> <input type="button" value="Publicar"
+				onclick="publicar(document.getElementById('nrBuild'), document.getElementById('ambiente'))" />
 		</div>
-		<p />
-    
+		</uib-accordion>
+	</div>
+	<p />
+
 	<div ng-controller="buildCtrl">
 		<h2>Últimas Builds Publicadas por Ambiente</h2>
 		<table border=1>
@@ -72,8 +71,10 @@ tr:nth-child(even) {
 				<td style="text-align: center"
 					ng-repeat="ultimaPublicacao in ultimasPublicacoes"
 					title="Data de Publicação: {{ ultimaPublicacao.dataPublicacao }}">
-					<button title="Clique para download das builds" id="botaoUltimasBuilds{{ultimaPublicacao.ambiente}}"
-						onclick="setNumeroDataBuild('{{ultimaPublicacao.numeroBuild}}', '{{ultimaPublicacao.dataBuild}}');document.getElementById('myModal').style.display = 'block'">{{ultimaPublicacao.numeroBuild}}</button></td>
+					<button title="Clique para download das builds"
+						id="botaoUltimasBuilds{{ultimaPublicacao.ambiente}}"
+						onclick="setNumeroDataBuild('{{ultimaPublicacao.numeroBuild}}', '{{ultimaPublicacao.dataBuild}}');document.getElementById('myModal').style.display = 'block'">{{ultimaPublicacao.numeroBuild}}</button>
+				</td>
 			</tr>
 		</table>
 		<p />
@@ -90,7 +91,8 @@ tr:nth-child(even) {
 				<th style="text-align: center">PRO</th>
 			</tr>
 			<tr ng-repeat="publicacao in publicacoes">
-				<td><button title="Clique para download das builds" id="botaoBuild"
+				<td><button title="Clique para download das builds"
+						id="botaoBuild"
 						onclick="setNumeroDataBuild('{{ultimaPublicacao.numeroBuild}}', '{{ultimaPublicacao.dataBuild}}');document.getElementById('myModal').style.display = 'block'">{{publicacao.numeroBuild}}</button>
 				</td>
 				<td>{{ publicacao.versao}}</td>
@@ -98,7 +100,7 @@ tr:nth-child(even) {
 				<td>{{publicacao.datasPublicacao[1]}}</td>
 				<td>{{publicacao.datasPublicacao[2]}}</td>
 				<td>{{publicacao.datasPublicacao[3]}}</td>
-				<td>{{publicacao.datasPublicacao[4]}}</td>					
+				<td>{{publicacao.datasPublicacao[4]}}</td>
 			</tr>
 		</table>
 
@@ -109,7 +111,8 @@ tr:nth-child(even) {
 			<!-- Modal content -->
 			<div class="modal-content">
 				<span class="close"
-					onclick="document.getElementById('myModal').style.display = 'none';" title="Fechar">[X]</span>
+					onclick="document.getElementById('myModal').style.display = 'none';"
+					title="Fechar">[X]</span>
 				<p id="tituloModal">Clique para download da Build [XXXX]:</p>
 				<p>
 					<a id="download-login"
@@ -122,6 +125,6 @@ tr:nth-child(even) {
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

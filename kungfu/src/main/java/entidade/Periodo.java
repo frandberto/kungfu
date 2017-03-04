@@ -10,18 +10,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="periodo", schema="kungfu")
-@SequenceGenerator(schema="kungfu", allocationSize=1, name="sq_id_periodo")
+@Table(name="periodo", schema="public")
+@SequenceGenerator(schema="public", allocationSize=1, name="sq_id_periodo")
 public class Periodo
 {
   @Id
   @Column(name="id_periodo", unique=true, nullable=false)
   @GeneratedValue(generator="sq_id_periodo", strategy=GenerationType.IDENTITY)
   private Long id;
+  
   @Column(name="descricao")
   private String descricao;
+  
   @Column(name="dt_inicio")
   private Date dataInicio;
+  
   @Column(name="dt_fim")
   private Date dataFim;
   

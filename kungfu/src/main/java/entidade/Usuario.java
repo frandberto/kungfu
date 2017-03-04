@@ -9,20 +9,24 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usuario", schema="kungfu")
-@SequenceGenerator(schema="kungfu", allocationSize=1, name="sq_id_usuario")
+@Table(name="usuario", schema="public")
+@SequenceGenerator(schema="public", allocationSize=1, name="sq_id_usuario")
 public class Usuario
 {
   @Id
   @Column(name="id_usuario", unique=true, nullable=false)
   @GeneratedValue(generator="sq_id_usuario", strategy=GenerationType.IDENTITY)
   private Long id;
-  @Column(name="cpf")
+  
+  @Column(name="codigo")
   private String cpf;
+  
   @Column(name="nome")
   private String nome;
-  @Column(name="nome_guerra")
-  private String nomeGuerra;
+  
+  @Column(name="apelido")
+  private String apelido;
+  
   @Column(name="email")
   private String email;
   
@@ -56,14 +60,14 @@ public class Usuario
     this.nome = nome;
   }
   
-  public String getNomeGuerra()
+  public String getApelido()
   {
-    return this.nomeGuerra;
+    return this.apelido;
   }
   
-  public void setNomeGuerra(String nomeGuerra)
+  public void setApelido(String apelido)
   {
-    this.nomeGuerra = nomeGuerra;
+    this.apelido = apelido;
   }
   
   public String getEmail()

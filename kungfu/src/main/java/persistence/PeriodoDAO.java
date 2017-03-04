@@ -1,10 +1,11 @@
 package persistence;
 
+import java.util.List;
+
+import javax.persistence.TypedQuery;
+
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import entidade.Periodo;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 @PersistenceController
 public class PeriodoDAO

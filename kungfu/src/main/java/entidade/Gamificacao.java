@@ -2,7 +2,6 @@ package entidade;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,13 +14,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="gameficacao", schema="public")
-@SequenceGenerator(schema="public", allocationSize=1, name="sq_id_gameficacao")
+@Table(name="gamificacao", schema="public")
+@SequenceGenerator(schema="public", allocationSize=1, name="sq_id_gamificacao")
 public class Gamificacao
 {
   @Id
-  @Column(name="id_gameficacao", unique=true, nullable=false)
-  @GeneratedValue(generator="sq_id_gameficacao", strategy=GenerationType.IDENTITY)
+  @Column(name="id_gamificacao", unique=true, nullable=false)
+  @GeneratedValue(generator="sq_id_gamificacao", strategy=GenerationType.IDENTITY)
   private Long id;
   
   @ManyToOne(optional=false)

@@ -25,13 +25,13 @@ import business.GamificacaoBC;
 import business.exception.NegocioException;
 import entidade.Gamificacao;
 
-@Path("gameficacao")
+@Path("gamificacao")
 public class GamificacaoREST
 {
   @Context
   private UriInfo uri;
   @Inject
-  private GamificacaoBC gameficacaoBC;
+  private GamificacaoBC gamificacaoBC;
   @Inject
   private Logger log;
   
@@ -40,7 +40,7 @@ public class GamificacaoREST
   @GET
   public List<DadosGameficacao> listar()
   {
-    List<Gamificacao> listaGameficacao = this.gameficacaoBC.listar();
+    List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar();
     List<DadosGameficacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
@@ -50,7 +50,7 @@ public class GamificacaoREST
   @GET
   public List<DadosGameficacao> listar(Long idPeriodo)
   {
-    List<Gamificacao> listaGameficacao = this.gameficacaoBC.listar(idPeriodo);
+    List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar(idPeriodo);
     List<DadosGameficacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
@@ -72,7 +72,7 @@ public class GamificacaoREST
       Date dataEvento = DateUtil.toDate(dataRegistro);
       try
       {
-        this.gameficacaoBC.inserirEvento(idEvento, idUsuario, dataEvento, observacao);
+        this.gamificacaoBC.inserirEvento(idEvento, idUsuario, dataEvento, observacao);
         this.log.info("Registro concluido!");
       }
       catch (NegocioException e)

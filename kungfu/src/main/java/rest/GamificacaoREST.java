@@ -1,6 +1,5 @@
 package rest;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,21 +8,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
 
-import util.DateUtil;
 import business.GamificacaoBC;
 import business.exception.NegocioException;
 import entidade.Gamificacao;
+import util.DateUtil;
 
 @Path("gamificacao")
 public class GamificacaoREST
@@ -35,69 +34,64 @@ public class GamificacaoREST
   @Inject
   private Logger log;
   
-  @Path("listar")
+  @Path("eventos")
   @Produces({"application/json"})
   @GET
-  public List<DadosGameficacao> listar()
+  public List<SaidaGamificacao> listar()
   {
     List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar();
-    List<DadosGameficacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
+    List<SaidaGamificacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
   
   @Path("listar/{idPeriodo}")
   @Produces({"application/json"})
   @GET
-  public List<DadosGameficacao> listar(Long idPeriodo)
+  public List<SaidaGamificacao> listar(Long idPeriodo)
   {
     List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar(idPeriodo);
-    List<DadosGameficacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
+    List<SaidaGamificacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
   
   @POST
-  @Path("inserirEvento")
-  @Produces({"text/plain"})
-  public Response publicar(@FormParam("idEvento") String idEvento, @FormParam("idEvento") String idPeriodo, 
-		  @FormParam("idUsuario") String idUsuario, @FormParam("dataRegistro") String dataRegistro, @FormParam("observacao") String observacao)
+  @Path("evento")
+  @Consumes({"application/json"})
+  public void registrarEvento(EntradaGamificacao entrada)
     throws URISyntaxException
   {
-    if ((!StringUtils.isEmpty(idEvento)) && 
-    		(!StringUtils.isEmpty(dataRegistro)) &&
-    		(!StringUtils.isEmpty(idUsuario)) && 
-    	    (!StringUtils.isEmpty(idPeriodo)))
+    if ((!StringUtils.isEmpty(entrada.idEvento)) && 
+    		(!StringUtils.isEmpty(entrada.dataRegistro)) &&
+    		(!StringUtils.isEmpty(entrada.idUsuario)) && 
+    	    (!StringUtils.isEmpty(entrada.idPeriodo)))
     {
       
       this.log.info("Realizando registro de evento");
-      Date dataEvento = DateUtil.toDate(dataRegistro);
+      Date dataEvento = DateUtil.toDate(entrada.dataRegistro);
       try
       {
-        this.gamificacaoBC.inserirEvento(idEvento, idUsuario, dataEvento, observacao);
-        this.log.info("Registro concluido!");
+        Gamificacao novaGamificacao = this.gamificacaoBC.inserirEvento(Long.valueOf(entrada.idPeriodo), 
+        		Long.valueOf(entrada.idEvento), Long.valueOf(entrada.idUsuario), 
+        		dataEvento, entrada.observacao);
+        this.log.info("Registro [" + novaGamificacao.getId() + "] incluido!");
       }
       catch (NegocioException e)
       {
-        this.log.log(Level.SEVERE, "Erro ao tentar efetuar a publicacao", e);
+        this.log.log(Level.SEVERE, "Erro ao tentar efetuar a publicacao do evento", e);
       }
     }
     else
     {
       this.log.info("Existe algum parametro nulo. Verifique os valores");
     }
-    String host = this.uri.getBaseUri().getHost();
-    String porta = String.valueOf(this.uri.getBaseUri().getPort());
-    String url = "http://" + host + ":" + porta + "/build";
-    URI location = new URI(url);
-    this.log.info("Direcionado para o endereco url: " + location);
-    return Response.temporaryRedirect(location).build();
   }
   
-  private List<DadosGameficacao> criarDadosListagemGameficacao(List<Gamificacao> listaGameficacao)
+  private List<SaidaGamificacao> criarDadosListagemGameficacao(List<Gamificacao> listaGameficacao)
   {
-    List<DadosGameficacao> listaDadosGameficacao = new ArrayList<DadosGameficacao>();
+    List<SaidaGamificacao> listaDadosGameficacao = new ArrayList<SaidaGamificacao>();
     for (Gamificacao game : listaGameficacao)
     {
-      DadosGameficacao dado = new DadosGameficacao();
+      SaidaGamificacao dado = new SaidaGamificacao();
       dado.nomeEvento = game.getEvento().getDescricao();
       dado.dataRegistro = DateUtil.formatar(game.getDataRegistro());
       dado.nomeUsuario = game.getUsuario().getNome();
@@ -109,13 +103,22 @@ public class GamificacaoREST
     return listaDadosGameficacao;
   }
   
-  public static class DadosGameficacao
+  public static class SaidaGamificacao
   {
     public String nomeEvento;
     public String nomeUsuario;
     public String apelido;
     public String dataRegistro;
     public String pontuacao;
+    public String observacao;
+  }
+  
+  public static class EntradaGamificacao
+  {
+    public String idPeriodo;
+    public String idEvento;
+    public String idUsuario;
+    public String dataRegistro;
     public String observacao;
   }
 }

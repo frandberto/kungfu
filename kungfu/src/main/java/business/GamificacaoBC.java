@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import persistence.GamificacaoDAO;
 import br.gov.frameworkdemoiselle.stereotype.Controller;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import business.exception.NegocioException;
+import entidade.Evento;
 import entidade.Gamificacao;
+import entidade.Periodo;
+import entidade.Usuario;
+import persistence.GamificacaoDAO;
 
 @Controller
 public class GamificacaoBC
@@ -16,9 +20,20 @@ public class GamificacaoBC
   @Inject
   private GamificacaoDAO gamificacaoDAO;
   
+  @Inject
+  private PeriodoBC periodoBC;
+  
+  @Inject 
+  private EventoBC eventoBC;
+  
+  @Inject
+  private UsuarioBC usuarioBC;
+  
   public List<Gamificacao> listar()
   {
-    return this.gamificacaoDAO.listar();
+    Date dataAtual = new Date();
+    Periodo periodoAtual = periodoBC.obterPeriodo(dataAtual);
+    return this.gamificacaoDAO.listar(periodoAtual.getId());
   }
   
   public List<Gamificacao> listar(Long idPeriodo)
@@ -26,7 +41,18 @@ public class GamificacaoBC
     return this.gamificacaoDAO.listar(idPeriodo);
   }
   
-  public void inserirEvento(String idEvento, String idUsuario, Date dataEvento, String observacao)
-    throws NegocioException
-  {}
+  public Gamificacao inserirEvento(Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao)
+    throws NegocioException  {
+	  Periodo periodo = periodoBC.buscarPorID(idPeriodo);
+	  Evento evento = eventoBC.buscarPorID(idEvento);
+	  Usuario usuario = usuarioBC.buscarPorID(idUsuario);	  
+	  
+	  Gamificacao gamificacao = new Gamificacao();
+	  gamificacao.setDataRegistro(dataRegistro);
+	  gamificacao.setEvento(evento);
+	  gamificacao.setPeriodo(periodo);
+	  gamificacao.setUsuario(usuario);
+	  gamificacao.setObservacao(observacao);
+	  return gamificacaoDAO.insert(gamificacao);
+  }
 }

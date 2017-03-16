@@ -1,5 +1,6 @@
 package util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ public class DateUtil
 {
   public static String formatar(Date data)
   {
-    return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(data);
+    return new SimpleDateFormat("dd/MM/yyyy").format(data);
   }
   
   public static String formatar(Date data, String mascara)
@@ -15,8 +16,15 @@ public class DateUtil
     return new SimpleDateFormat(mascara).format(data);
   }
   
-  public static Date toDate(String dataRegistro)
-  {
-    return null;
+  public static Date toDate(String dataRegistro) {
+	  SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+      try {
+		Date dataFormatada = formatter.parse(dataRegistro);
+		return dataFormatada;
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	}
   }
 }

@@ -37,7 +37,7 @@ public class GamificacaoDAO
   public List<Gamificacao> listar()
   {
     Date dataAtual = new Date();
-    String jpql = "select a from Gamificacao a  where a.periodo.dataInicio >= :dataAtual  and a.periodo.dataFim <= :dataAtual  order by a.dataRegistro";
+    String jpql = "select a from Gamificacao a  where :dataAtual between a.periodo.dataInicio and a.periodo.dataFim order by a.dataRegistro";
     
     TypedQuery<Gamificacao> query = getEntityManager().createQuery(jpql, Gamificacao.class);
     

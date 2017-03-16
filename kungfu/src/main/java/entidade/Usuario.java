@@ -21,7 +21,7 @@ public class Usuario
   @Column(name="codigo")
   private String cpf;
   
-  @Column(name="nome")
+  @Column(name="nome_completo")
   private String nome;
   
   @Column(name="apelido")

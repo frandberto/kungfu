@@ -53,10 +53,10 @@ public class GamificacaoREST
   @Produces({"application/json"})
   
   @GET
-  public List<SaidaGamificacao> listar()
+  public List<GamificacaoJSON> listar()
   {
     List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar();
-    List<SaidaGamificacao> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
+    List<GamificacaoJSON> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
   
@@ -124,7 +124,7 @@ public class GamificacaoREST
   @POST
   @Path("gamificacao")
   @Consumes({"application/json"})
-  public void registrarEvento(EntradaGamificacao entrada)
+  public void registrarEvento(GamificacaoJSON entrada)
     throws URISyntaxException
   {
     if ((!StringUtils.isEmpty(entrada.idEvento)) && 
@@ -135,30 +135,26 @@ public class GamificacaoREST
       
       this.log.info("Realizando registro de evento");
       Date dataEvento = DateUtil.toDate(entrada.dataRegistro);
-      try
-      {
-        Gamificacao novaGamificacao = this.gamificacaoBC.inserirEvento(Long.valueOf(entrada.idPeriodo), 
+      try {
+    	Long idGamificacao = Long.valueOf(entrada.idGamificacao);
+        Gamificacao novaGamificacao = this.gamificacaoBC.inserirGamificacao(idGamificacao, Long.valueOf(entrada.idPeriodo), 
         		Long.valueOf(entrada.idEvento), Long.valueOf(entrada.idUsuario), 
         		dataEvento, entrada.observacao);
         this.log.info("Registro [" + novaGamificacao.getId() + "] incluido!");
-      }
-      catch (NegocioException e)
-      {
+      } catch (NegocioException e) {
         this.log.log(Level.SEVERE, "Erro ao tentar efetuar a publicacao do evento", e);
       }
-    }
-    else
-    {
+    } else {
       this.log.info("Existe algum parametro nulo. Verifique os valores");
     }
   }
   
-  private List<SaidaGamificacao> criarDadosListagemGameficacao(List<Gamificacao> listaGameficacao)
+  private List<GamificacaoJSON> criarDadosListagemGameficacao(List<Gamificacao> listaGameficacao)
   {
-    List<SaidaGamificacao> listaDadosGameficacao = new ArrayList<SaidaGamificacao>();
+    List<GamificacaoJSON> listaDadosGameficacao = new ArrayList<GamificacaoJSON>();
     for (Gamificacao game : listaGameficacao)
     {
-      SaidaGamificacao dado = new SaidaGamificacao();
+      GamificacaoJSON dado = new GamificacaoJSON();
       dado.idGamificacao = String.valueOf(game.getId());
       dado.idPeriodo = String.valueOf(game.getPeriodo().getId());
       dado.nomeEvento = game.getEvento().getDescricao();
@@ -173,7 +169,7 @@ public class GamificacaoREST
     return listaDadosGameficacao;
   }
   
-  public static class SaidaGamificacao
+  public static class GamificacaoJSON
   {
 	public String idGamificacao;
 	public String idPeriodo;
@@ -183,15 +179,6 @@ public class GamificacaoREST
     public String idUsuario;
     public String dataRegistro;
     public String pontuacao;
-    public String observacao;
-  }
-  
-  public static class EntradaGamificacao
-  {
-    public String idPeriodo;
-    public String idEvento;
-    public String idUsuario;
-    public String dataRegistro;
     public String observacao;
   }
   

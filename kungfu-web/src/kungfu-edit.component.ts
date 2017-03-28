@@ -6,25 +6,36 @@ import { KungfuSelectComponent } from './kungfu-select.component';
   template: `
     <p>
     <div class="panel panel-primary">
-      <div class="panel-body">
-      <div class="row">
-         <div class="col-sm-2">Participante</div>
-         <div class="col-sm-1">Data</div>
-         <div class="col-sm-6">Evento</div>
-         <div class="col-sm-1">Pontuação</div>
-         <div class="col-sm-2">Observação</div>
-       </div>
-        <div class="row">
-          <div class="col-sm-2"><kungfu-select [(entidades)]="this.participantes"></kungfu-select></div>
-          <div class="col-sm-1"><input type="text" [(ngModel)]="gamificacao.dataRegistro"
-          placeholder="Data"></div>
-         <div class="col-sm-6"><kungfu-select [(entidades)]="this.eventos"></kungfu-select></div>
-         <div class="col-sm-1"><input type="text" [(ngModel)]="gamificacao.pontuacao"
-          placeholder="0" class="disabled"></div> 
-         <div class="col-sm-2"><textarea [(ngModel)]="gamificacao.observacao"
-          placeholder="Observação"></textarea></div>
-       </div>
-      
+       <div class="panel-heading">Registro de Eventos</div>
+       <div class="panel-body">
+       <div class="form-group">
+        <label for="participante">Participante:</label>
+        <kungfu-select [selected]="this.gamificacao.idUsuario" 
+             (selectedChange)="onSelectedChangeParticipante($event)"
+             [entidades]="this.participantes" ></kungfu-select>
+      </div>
+      <div class="form-group">
+        <label for="data">Data:</label>
+        <input type="text" [(ngModel)]="gamificacao.dataRegistro"
+          placeholder="Data" id="data">
+      </div>
+      <div class="form-group">
+        <label for="evento">Evento:</label>
+        <kungfu-select [selected]="this.gamificacao.idEvento" 
+              [entidades]="this.eventos"
+              (selectedChange)="onSelectedChangeEvento($event)">
+        </kungfu-select>
+      </div>
+      <div class="form-group">
+        <label for="pontuacao"> Pontuação:</label>
+        <input [(ngModel)]="gamificacao.pontuacao" class="disabled" id="pontuacao">
+      </div>
+      <div class="form-group">
+        <label for="observacao"> Observação:</label>
+        <textarea [(ngModel)]="gamificacao.observacao" rows="1" cols="80"
+          placeholder="Observação" id="observacao"></textarea>
+      </div>        
+       <!-- Botoes de Controle -->
        <div class="row">
          <div class="col-sm-5"></div>
          <div class="col-sm-1">
@@ -38,18 +49,27 @@ import { KungfuSelectComponent } from './kungfu-select.component';
               </button>
          </div>
          <div class="col-sm-5"></div>
-        </div>           
-      </div>
+        </div> 
+        </div>
     </div>
   `,
 })
 export class KungfuEditComponent {
 
-  @Input() gamificacao = {};
-  @Input() @Output() eventos = {};
-  @Input() @Output() participantes = {};
+  @Input() gamificacao = {
+    "apelido":"", 
+    "dataRegistro":"",
+    "idUsuario":"", 
+    "idEvento":"", 
+    "nomeEvento":"",
+    "pontuacao":"0,0",
+    "observacao":""};
+  @Input() @Output() eventos = [];
+  @Input() @Output() participantes = [];
   @Output() clear = new EventEmitter();
   @Output() save = new EventEmitter();
+  idEventoSelecionado: string;
+  idParticipanteSelecionado: string;
 
   onClear() {
     this.clear.emit();
@@ -57,6 +77,16 @@ export class KungfuEditComponent {
 
   onSave() {
     this.save.emit(this.gamificacao);
+  }
+
+  onSelectedChangeEvento(evento) {
+       console.info("Evento selecionado", evento);
+       this.gamificacao.idEvento = evento;
+  }
+
+  onSelectedChangeParticipante(evento) {
+       console.info("Participante selecionado", evento);
+       this.gamificacao.idUsuario = evento;
   }
 
 }

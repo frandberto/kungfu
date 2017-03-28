@@ -125,19 +125,22 @@ public class GamificacaoREST
   @Path("gamificacao")
   @Consumes({"application/json"})
   public void registrarEvento(GamificacaoJSON entrada)
-    throws URISyntaxException
-  {
+    throws URISyntaxException {
     if ((!StringUtils.isEmpty(entrada.idEvento)) && 
     		(!StringUtils.isEmpty(entrada.dataRegistro)) &&
-    		(!StringUtils.isEmpty(entrada.idUsuario)) && 
-    	    (!StringUtils.isEmpty(entrada.idPeriodo)))
-    {
+    		(!StringUtils.isEmpty(entrada.idUsuario))) {
       
       this.log.info("Realizando registro de evento");
       Date dataEvento = DateUtil.toDate(entrada.dataRegistro);
       try {
-    	Long idGamificacao = Long.valueOf(entrada.idGamificacao);
-        Gamificacao novaGamificacao = this.gamificacaoBC.inserirGamificacao(idGamificacao, Long.valueOf(entrada.idPeriodo), 
+    	Long idGamificacao = null;
+    	if (StringUtils.isNotEmpty(entrada.idGamificacao)) {
+    		idGamificacao = Long.valueOf(entrada.idGamificacao);
+    	}
+    	Periodo periodo = periodoBC.obterPeriodo(dataEvento);  	
+    	
+        Gamificacao novaGamificacao = this.gamificacaoBC.inserirGamificacao(idGamificacao, 
+        		periodo.getId(), 
         		Long.valueOf(entrada.idEvento), Long.valueOf(entrada.idUsuario), 
         		dataEvento, entrada.observacao);
         this.log.info("Registro [" + novaGamificacao.getId() + "] incluido!");
@@ -147,6 +150,15 @@ public class GamificacaoREST
     } else {
       this.log.info("Existe algum parametro nulo. Verifique os valores");
     }
+  }
+  
+  @POST
+  @Path("exclusao")
+  @Consumes({"text/plain"})
+  public void excluirEvento(String idGamificacao)
+    throws URISyntaxException {   	
+    	Long idEvento = Long.valueOf(idGamificacao);
+        this.gamificacaoBC.excluir(idEvento);
   }
   
   private List<GamificacaoJSON> criarDadosListagemGameficacao(List<Gamificacao> listaGameficacao)

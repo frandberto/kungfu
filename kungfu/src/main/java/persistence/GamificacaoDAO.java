@@ -47,7 +47,9 @@ public class GamificacaoDAO
   
   public List<Gamificacao> listar(Long idPeriodo)
   {
-    String jpql = "select a from Gamificacao a  where a.periodo.id = :idPeriodo  order by a.dataRegistro";
+    String jpql = "select a from Gamificacao a  "
+    		+ " join a.usuario as usuario "
+    		+ " where a.periodo.id = :idPeriodo  order by a.dataRegistro desc, usuario.nome asc";
     
     TypedQuery<Gamificacao> query = getEntityManager().createQuery(jpql, Gamificacao.class);
     query.setParameter("idPeriodo", idPeriodo);

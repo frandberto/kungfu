@@ -43,7 +43,7 @@ public class GamificacaoBC
   
   public Gamificacao inserirGamificacao(Long idGamificacao, Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao)
     throws NegocioException  {
-	  if (idGamificacao == null) {
+	  if (idGamificacao != null) {
 	      return atualizar(idGamificacao, idPeriodo, 
 	    		  idEvento, idUsuario, dataRegistro, observacao);
 	  } else {
@@ -52,7 +52,11 @@ public class GamificacaoBC
 	  }
   }
   
-  private Gamificacao inserir(Long idGamificacao, Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao) {
+  public void excluir(Long idEvento) {
+	  gamificacaoDAO.delete(idEvento);
+  }
+  
+  private Gamificacao atualizar(Long idGamificacao, Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao) {
 	  Gamificacao gamificacao = gamificacaoDAO.buscarPorID(idGamificacao);
 	  if (!gamificacao.getUsuario().getId().equals(idUsuario)) {
 		  Usuario usuario = usuarioBC.buscarPorID(idUsuario);
@@ -67,7 +71,7 @@ public class GamificacaoBC
       return (Gamificacao) gamificacaoDAO.sincronizar(gamificacao);
   }
   
-  private Gamificacao atualizar(Long idGamificacao, Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao) {
+  private Gamificacao inserir(Long idGamificacao, Long idPeriodo, Long idEvento, Long idUsuario, Date dataRegistro, String observacao) {
 	  Periodo periodo = periodoBC.buscarPorID(idPeriodo);
       Evento evento = eventoBC.buscarPorID(idEvento);
       Usuario usuario = usuarioBC.buscarPorID(idUsuario);	  

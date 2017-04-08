@@ -19,7 +19,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             {{gamificacao.apelido}}
           </td>
            <td>
-            {{gamificacao.dataRegistro}}
+            {{ this.getDataFormatada(gamificacao.dataRegistro) }}
           </td>
            <td>
             {{gamificacao.nomeEvento}}
@@ -55,6 +55,23 @@ export class KungfuListComponent {
 
   onRemove(gamificacao) {
     this.remove.emit(gamificacao);
+  }
+
+  private getDataAtual() {
+      let dataAtual = new Date();
+      return this.getDataFormatada(dataAtual);
+  }
+
+ /**
+ * Retorna a data formatada em dd/mm/aaaa
+ */
+  private getDataFormatada(data: Date) {
+      let dia = data.getDate();
+      let mes = data.getMonth() + 1;
+      let ano = data.getFullYear();
+      let dataAtualFormatada : string;
+      dataAtualFormatada = dia + '/' + mes + '/' + ano;      
+      return dataAtualFormatada;
   }
 
 }

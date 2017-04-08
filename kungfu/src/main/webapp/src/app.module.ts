@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { KungfuEditComponent } from './kungfu-edit.component';
 import { KungfuListComponent } from './kungfu-list.component';
 import { KungfuSelectComponent } from './kungfu-select.component';
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpModule],
-  declarations: [AppComponent, KungfuEditComponent, KungfuListComponent, KungfuSelectComponent],
+  imports: [BrowserModule, FormsModule, HttpModule, MyDatePickerModule],
+  declarations: [AppComponent, KungfuEditComponent, KungfuListComponent, 
+      KungfuSelectComponent],
   providers: [GamificacaoService],
   bootstrap: [AppComponent]
 })

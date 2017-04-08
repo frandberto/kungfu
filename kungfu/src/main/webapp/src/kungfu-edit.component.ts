@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { KungfuSelectComponent } from './kungfu-select.component';
+import { MyDatePickerModule } from 'mydatepicker';
+import { IMyOptions } from 'mydatepicker';
+import { Gamificacao } from './gamificacao.entidade';
 
 @Component({
   selector: 'kungfu-edit',
@@ -14,10 +17,14 @@ import { KungfuSelectComponent } from './kungfu-select.component';
              (selectedChange)="onSelectedChangeParticipante($event)"
              [entidades]="this.participantes" ></kungfu-select>
       </div>
-      <div class="form-group">
-        <label for="data">Data:</label>
-        <input type="date" [(ngModel)]="gamificacao.dataRegistro"
-          placeholder="Data" id="data">
+      <div class="row">
+         <div class="col-sm-1"><label for="mydate">Data:</label></div>
+         <div class="col-sm-2">    
+            <my-date-picker name="myDate" [options]="datePickerOptions"
+              [(ngModel)]="this.gamificacao.dataCalendario" 
+              required></my-date-picker>
+         </div>
+         <div class="col-sm-9"></div>
       </div>
       <div class="form-group">
         <label for="evento">Evento:</label>
@@ -55,20 +62,15 @@ import { KungfuSelectComponent } from './kungfu-select.component';
 })
 export class KungfuEditComponent {
 
-  @Input() gamificacao = {
-    "idGamificacao":"", 
-    "dataRegistro":"",
-    "idUsuario":"", 
-    "idEvento":"", 
-    "pontuacao":"0",
-    "observacao":""};
+  @Input() 
+  gamificacao : Gamificacao;
   @Input() @Output() eventos = [];
   @Input() @Output() participantes = [];
   @Output() clear = new EventEmitter();
   @Output() save = new EventEmitter();
   idEventoSelecionado: string;
   idParticipanteSelecionado: string;
-
+ 
   onClear() {
     this.clear.emit();
   }
@@ -99,5 +101,19 @@ export class KungfuEditComponent {
     }
     return null;
   }
+
+  constructor() {
+  }
+
+  private datePickerOptions: IMyOptions = {        
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: true,
+        dayLabels: {su: "Dom", mo: "Seg", tu: "Ter", we: "Qua", th: "Qui", fr: "Sex", sa: "Sab"},
+        monthLabels: { 1: "Jan", 2: "Fev", 3: "Mar", 4: "Abr", 5: "Mai", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Set", 10: "Out", 11: "Nov", 12: "Dez" },
+        todayBtnTxt: "Hoje",
+        firstDayOfWeek: "su",
+        sunHighlight: true,
+        inputAutoFill: true,
+    };
 
 }

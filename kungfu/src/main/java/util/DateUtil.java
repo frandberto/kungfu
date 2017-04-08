@@ -18,6 +18,7 @@ public class DateUtil
   
   public static Date toDate(String dataRegistro) {
 	  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	  dataRegistro = dataRegistro.substring(0, 10);
       try {
 		Date dataFormatada = formatter.parse(dataRegistro);
 		return dataFormatada;

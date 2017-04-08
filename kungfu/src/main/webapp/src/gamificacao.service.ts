@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { Gamificacao } from './gamificacao.entidade';
 
 @Injectable()
 export class GamificacaoService {
 
   errorHandler = error => console.error('GamificacaoService error', error);
-  private baseUrl = 'http://localhost:8180/kungfu/api/kungfu-leader';
+  private baseUrl = 'http://localhost:8080/kungfu/api/kungfu-leader';
 
   constructor(private http: Http) { }
 
-  saveGamificacao(gamificacao) {
+  saveGamificacao(gamificacao: Gamificacao) {
     let body = JSON.stringify(gamificacao);    
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

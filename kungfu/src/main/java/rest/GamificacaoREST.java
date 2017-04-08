@@ -50,8 +50,7 @@ public class GamificacaoREST
   private Logger log;
   
   @Path("gamificacoes")
-  @Produces({"application/json"})
-  
+  @Produces({"application/json"})  
   @GET
   public List<GamificacaoJSON> listar()
   {
@@ -192,6 +191,8 @@ public class GamificacaoREST
     public String dataRegistro;
     public String pontuacao;
     public String observacao;
+    // TODO marcar para ignorar essa propriedade
+    public String dataCalendario;
   }
   
   public static class SelecaoEvento {

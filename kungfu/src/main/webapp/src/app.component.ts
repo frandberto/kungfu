@@ -144,6 +144,6 @@ export class AppComponent {
    * Parse de calendario aara o formato Date
    */
   private parseCalendario2Data(calendario) {
-       return new Date(calendario.date.year, calendario.date.month, calendario.date.day );
+       return new Date(calendario.date.year, calendario.date.month - 1, calendario.date.day );
   }
 }

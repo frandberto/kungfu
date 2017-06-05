@@ -53,6 +53,8 @@ export class AppComponent {
 
      this.gamificacaoService.getParticipantes()
       .then(participantes => this.lstParticipante = this.parseParticipante(participantes));
+     
+     this.clear();     
     
   }
   

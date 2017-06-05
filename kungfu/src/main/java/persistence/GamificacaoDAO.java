@@ -3,6 +3,7 @@ package persistence;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
@@ -29,15 +30,15 @@ public class GamificacaoDAO
     return null;
   }
   
-  public Class<Gamificacao> getClassePaginacao()
-  {
+  public Class<Gamificacao> getClassePaginacao() {
     return Gamificacao.class;
   }
   
-  public List<Gamificacao> listar()
-  {
+  public List<Gamificacao> listar() {
     Date dataAtual = new Date();
-    String jpql = "select a from Gamificacao a  where :dataAtual between a.periodo.dataInicio and a.periodo.dataFim order by a.dataRegistro";
+    String jpql = "select a from Gamificacao a  "
+    		+ " where :dataAtual between a.periodo.dataInicio "
+    		+ " and a.periodo.dataFim order by a.dataRegistro";
     
     TypedQuery<Gamificacao> query = getEntityManager().createQuery(jpql, Gamificacao.class);
     
@@ -49,10 +50,25 @@ public class GamificacaoDAO
   {
     String jpql = "select a from Gamificacao a  "
     		+ " join a.usuario as usuario "
-    		+ " where a.periodo.id = :idPeriodo  order by a.dataRegistro desc, usuario.nome asc";
+    		+ " where a.periodo.id = :idPeriodo "
+    		+ " order by a.dataRegistro desc, usuario.nome asc";
     
     TypedQuery<Gamificacao> query = getEntityManager().createQuery(jpql, Gamificacao.class);
     query.setParameter("idPeriodo", idPeriodo);
     return query.getResultList();
+  }
+
+  public List<Object[]> listarPontuacoes(Long idPeriodo) {
+	  String sql = "select u.id_usuario, u.apelido, sum(e.pontuacao) "
+			  + " from gamificacao g, usuario u, evento e "
+			  + " where g.id_usuario = u.id_usuario "
+			  + " and g.id_evento = e.id_evento "
+			  + " and g.id_periodo = :idPeriodo "
+			  + " group by u.id_usuario, u.apelido "
+			  + " order by apelido asc";
+
+	  Query query = getEntityManager().createNativeQuery(sql);
+	  query.setParameter("idPeriodo", idPeriodo);
+	  return query.getResultList();
   }
 }

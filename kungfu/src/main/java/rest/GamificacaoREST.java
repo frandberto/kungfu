@@ -1,5 +1,6 @@
 package rest;
 
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import business.GamificacaoBC;
 import business.PeriodoBC;
 import business.UsuarioBC;
 import business.exception.NegocioException;
+import dto.PontuacaoDTO;
 import entidade.Evento;
 import entidade.Gamificacao;
 import entidade.Periodo;
@@ -59,7 +61,40 @@ public class GamificacaoREST
     return dadosGameficacacao;
   }
   
-  @Path("selecaoEventos")
+  @Path("pontuacoes")
+  @Produces({"application/json"})
+  @GET
+  public List<PontuacaoJSON> listarPontuacoes(String idPeriodoJason) {
+	Long idPeriodo;
+	
+	if (idPeriodoJason.isEmpty()) {		
+		Date hoje = new Date();	    	
+	    Periodo periodo = periodoBC.obterPeriodo(hoje);
+	    idPeriodo = periodo.getId();
+	} else {
+		idPeriodo = Long.valueOf(idPeriodoJason);
+	}
+    List<PontuacaoDTO> listaPontuacoes = this.gamificacaoBC.listarPontuacoes(idPeriodo);
+    List<PontuacaoJSON> dadosPontuacao = criarDadosListagemPontuacao(listaPontuacoes);
+    return dadosPontuacao;
+  }
+  
+  private List<PontuacaoJSON> criarDadosListagemPontuacao(List<PontuacaoDTO> listaPontuacoes) {
+	  
+	  List<PontuacaoJSON> lstPontucacaoJSON = new ArrayList<PontuacaoJSON>();
+	  for (PontuacaoDTO pontuacaoDTO: listaPontuacoes) {
+		  PontuacaoJSON pontuacaoJSON = new PontuacaoJSON();
+		  pontuacaoJSON.apelido = pontuacaoDTO.getApelido();
+		  pontuacaoJSON.idUsuario = String.valueOf(pontuacaoDTO.getIdUsuario());
+		  pontuacaoJSON.idRaking = String.valueOf(pontuacaoDTO.getIdRanking());
+		  pontuacaoJSON.pontuacao = String.valueOf(pontuacaoDTO.getPontuacao());
+		  pontuacaoJSON.avatar = String.valueOf(pontuacaoDTO.getAvatar());
+		  lstPontucacaoJSON.add(pontuacaoJSON);
+	   }
+	   return lstPontucacaoJSON;
+}
+
+@Path("selecaoEventos")
   @Produces({"application/json"})
   @GET
   public List<SelecaoEvento> listarEvento() {
@@ -195,10 +230,18 @@ public class GamificacaoREST
     public String dataCalendario;
   }
   
+  public static class PontuacaoJSON {	  
+    public String apelido;
+    public String idUsuario;
+    public String pontuacao;
+    public String idRaking;
+    public String avatar;
+  }
+  
   public static class SelecaoEvento {
 	    public String idEvento;
 	    public String descricao;
-	    public double pontuacao;
+	    public BigDecimal pontuacao;
   }
   
   public static class SelecaoPeriodo {

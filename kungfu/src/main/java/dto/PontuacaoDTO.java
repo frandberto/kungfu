@@ -1,46 +1,43 @@
 package dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
-public class PublicacaoDTO
-{
-  private String numero;
-  private String versao;
-  private List<String> datasPublicacao;
-  
-  public PublicacaoDTO()
-  {
-    this.datasPublicacao = new ArrayList();
+public class PontuacaoDTO {
+  private Integer idUsuario;
+  private String apelido;
+  private BigDecimal pontuacao;
+  private Integer idRanking;
+  private String avatar;
+
+  public Integer getIdUsuario() {
+	  return idUsuario;
   }
-  
-  public String getNumero()
-  {
-    return this.numero;
+  public void setIdUsuario(Integer idUsuario) {
+	  this.idUsuario = idUsuario;
   }
-  
-  public void setNumero(String numero)
-  {
-    this.numero = numero;
+  public String getApelido() {
+	  return apelido;
   }
-  
-  public String getVersao()
-  {
-    return this.versao;
+  public void setApelido(String apelido) {
+	  this.apelido = apelido;
   }
-  
-  public void setVersao(String versao)
-  {
-    this.versao = versao;
+  public BigDecimal getPontuacao() {
+	  return pontuacao;
   }
-  
-  public List<String> getDatasPublicacao()
-  {
-    return this.datasPublicacao;
+  public void setPontuacao(BigDecimal pontuacao) {
+	  this.pontuacao = pontuacao;
   }
-  
-  public void setDatasPublicacao(List<String> datasPublicacao)
-  {
-    this.datasPublicacao = datasPublicacao;
+  public Integer getIdRanking() {
+	  return idRanking;
   }
+  public void setIdRanking(Integer idRanking) {
+	  this.idRanking = idRanking;
+  }
+public String getAvatar() {
+	return avatar;
+}
+public void setAvatar(String avatar) {
+	this.avatar = avatar;
+}
+
 }

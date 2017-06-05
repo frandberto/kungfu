@@ -10,6 +10,7 @@
 		<class>entidade.Gamificacao</class>
 		<class>entidade.Periodo</class>
 		<class>entidade.Usuario</class>
+		<class>entidade.Ranking</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />

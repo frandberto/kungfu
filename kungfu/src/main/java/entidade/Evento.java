@@ -1,5 +1,7 @@
 package entidade;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,13 +26,13 @@ public class Evento {
 	private String descricao;
 
 	@Column(name="pontuacao")
-	private double pontuacao;
+	private BigDecimal pontuacao;
 
-	public double getPontuacao() {
+	public BigDecimal getPontuacao() {
 		return pontuacao;
 	}
 
-	public void setPontuacao(double pontuacao) {
+	public void setPontuacao(BigDecimal pontuacao) {
 		this.pontuacao = pontuacao;
 	}
 

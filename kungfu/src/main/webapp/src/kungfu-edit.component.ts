@@ -13,9 +13,9 @@ import { Gamificacao } from './gamificacao.entidade';
        <div class="panel-body">
        <div class="form-group">
         <label for="participante">Participante:</label>
-        <kungfu-select [selected]="this.gamificacao.idUsuario" 
+        <kungfu-select [selected]="this.gamificacao.idUsuario" required
              (selectedChange)="onSelectedChangeParticipante($event)"
-             [entidades]="this.participantes" ></kungfu-select>
+             [entidades]="this.participantes"></kungfu-select>
       </div>
       <div class="row">
          <div class="col-sm-1"><label for="mydate">Data:</label></div>
@@ -76,7 +76,18 @@ export class KungfuEditComponent {
   }
 
   onSave() {
-    this.save.emit(this.gamificacao);
+    if (this.validar()) {
+       this.save.emit(this.gamificacao);
+    }
+  }
+  
+  private validar() {
+      if (this.gamificacao.idUsuario == '' ||
+          this.gamificacao.idEvento == '' ) {
+          window.alert('Preencha os campos');
+          return false;
+      }
+      return true;          
   }
 
   onSelectedChangeEvento(idEvento) {

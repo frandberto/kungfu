@@ -3,7 +3,7 @@ import {Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
     selector : 'kungfu-select',
     template : `
-            <select [ngModel]="selected" (ngModelChange)="onSelectedChange($event)">                
+            <select [ngModel]="selected" (ngModelChange)="onSelectedChange($event)">
                    <option *ngFor='let entidade of entidades' [value]='entidade.id' >
                      {{entidade.descricao}}
                    </option>             

@@ -3,6 +3,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'kungfu-list',
   template: `
+    <div class="panel panel-primary">
+       <div class="panel-heading"></div>
+       <div class="panel-body">
     <div class="container-fluid">
       <table class="table table-striped">
         <tr>
@@ -11,7 +14,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
          <th>Evento</th>
          <th>Pontuação</th>
          <th>Observação</th>
-         <th>Ações</th>
+         <th *ngIf="this.isButtonEnabled">Ações</th>
         </tr>
         <tr *ngFor="let gamificacao of gamificacoes">
           <input type="hidden" value="{{gamificacao.idGamificacao}}">
@@ -30,7 +33,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
            <td>
             {{gamificacao.observacao}}
           </td>
-          <td>
+          <td *ngIf="this.isButtonEnabled">
             <button (click)="onEdit(gamificacao)" class="btn btn-primary" title="Editar">
               <span class="glyphicon glyphicon-pencil"></span>
             </button>
@@ -41,11 +44,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         </tr>
       </table>
     </div>
+    </div>
+    </div>
   `,
 })
 export class KungfuListComponent {
 
   @Input() gamificacoes = [];
+  @Input() isButtonEnabled = false;
   @Output() edit = new EventEmitter();
   @Output() remove = new EventEmitter();
 

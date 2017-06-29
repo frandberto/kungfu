@@ -10,10 +10,12 @@ import { KungfuEditComponent } from './kungfu-edit.component';
 import { KungfuListComponent } from './kungfu-list.component';
 import { KungfuSelectComponent } from './kungfu-select.component';
 import { KungfuVisualizacaoComponent } from './kungfu-visualizacao.component';
+import { KungfuLogoComponent } from './kungfu-logo.component';
 import { MyDatePickerModule } from 'mydatepicker';
 
 
 const appRoutes: Routes = [
+  { path: 'home', component: KungfuLogoComponent },
   { path: 'editar', component: KungfuMainPage },
   { path: 'visualizar', component: KungfuVisualizacaoComponent }
 ];
@@ -21,7 +23,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes), BrowserModule, FormsModule, HttpModule, MyDatePickerModule],
   declarations: [AppComponent, KungfuMainPage, KungfuEditComponent, KungfuListComponent, 
-      KungfuVisualizacaoComponent, KungfuSelectComponent],
+      KungfuVisualizacaoComponent, KungfuSelectComponent, KungfuLogoComponent],
   providers: [GamificacaoService],
   bootstrap: [AppComponent]
 })

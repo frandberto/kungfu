@@ -9,7 +9,7 @@ import { Gamificacao } from './gamificacao.entidade';
       [eventos]="this.lstEvento" 
       [participantes]="this.lstParticipante"
       (save)="save($event)" (clear)="clear()"></kungfu-edit>
-    <kungfu-list [gamificacoes]="this.gamificacoes"
+    <kungfu-list [gamificacoes]="this.gamificacoes" [isButtonEnabled]=true
       (edit)="edit($event)" (remove)="remove($event)"></kungfu-list>
   `,
 })

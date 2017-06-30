@@ -19,12 +19,12 @@ public class RankingDAO extends GenericoDAO<Ranking> {
 	public Ranking obterRanking(BigDecimal pontuacao) {
 		String sql = "select a from Ranking a  "
 				+ " where a.pontuacaoInicial <= :pontuacao "
-				+ " and ((pontuacaoFinal is null) or "
-				+ "(pontuacaoFinal is not null and :pontuacao >= :pontuacao)))";
+				+ " and pontuacaoFinal >= :pontuacao"
+				+ " order by pontuacaoFinal desc";
 
 		TypedQuery<Ranking> query = getEntityManager().createQuery(sql, Ranking.class);
-		query.setParameter("pontuacao", pontuacao.intValue());
-		return query.getSingleResult();
+		query.setParameter("pontuacao", pontuacao.intValue());		
+		return query.getResultList().get(0);
 	}
 
 	public Class<Ranking> getClassePaginacao() {

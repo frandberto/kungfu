@@ -58,14 +58,22 @@ public class GamificacaoDAO
     return query.getResultList();
   }
 
+  /**
+   * Object[0] : id_usuario
+   * Object[1] : apelido
+   * Object[2] : pontuacao total
+   * 
+   * @param idPeriodo identificador do período
+   * @return lista de Objetos do ranking de pontuações
+   */
   public List<Object[]> listarPontuacoes(Long idPeriodo) {
-	  String sql = "select u.id_usuario, u.apelido, sum(e.pontuacao) "
+	  String sql = "select u.id_usuario, u.apelido, sum(e.pontuacao) totalPontuacao"
 			  + " from gamificacao g, usuario u, evento e "
 			  + " where g.id_usuario = u.id_usuario "
 			  + " and g.id_evento = e.id_evento "
 			  + " and g.id_periodo = :idPeriodo "
 			  + " group by u.id_usuario, u.apelido "
-			  + " order by apelido asc";
+			  + " order by totalPontuacao desc";
 
 	  Query query = getEntityManager().createNativeQuery(sql);
 	  query.setParameter("idPeriodo", idPeriodo);

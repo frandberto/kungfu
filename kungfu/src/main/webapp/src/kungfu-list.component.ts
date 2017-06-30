@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'kungfu-list',
   template: `
+    <p>
     <div class="panel panel-primary">
        <div class="panel-heading"></div>
        <div class="panel-body">

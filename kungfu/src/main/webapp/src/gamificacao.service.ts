@@ -40,6 +40,20 @@ export class GamificacaoService {
       .then(response => response.json())
       .catch(this.errorHandler);
   }
+  
+  getRankings() {
+    return this.http.get(`${this.baseUrl}/pontuacoes`)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.errorHandler);
+  }
+  
+  getPeriodoAtual() {
+    return this.http.get(`${this.baseUrl}/periodoAtual`)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.errorHandler);
+  }
 
   removeGamificacao(gamificacao) {
     let body = gamificacao.idGamificacao;

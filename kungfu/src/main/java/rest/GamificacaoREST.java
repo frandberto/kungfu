@@ -124,6 +124,17 @@ public class GamificacaoREST
     return lstSelecaoPeriodo;
   }
   
+  @Path("periodoAtual")
+  @Produces({"application/json"})
+  @GET
+  public SelecaoPeriodo obterPeriodoAtual() {
+    Periodo periodoAtual = periodoBC.obterPeriodo(new Date());
+    SelecaoPeriodo selecaoPeriodo = new SelecaoPeriodo();
+    selecaoPeriodo.idPeriodo = String.valueOf(periodoAtual.getId());
+	selecaoPeriodo.descricao = periodoAtual.getDescricao();
+    return selecaoPeriodo;
+  }
+  
   private List<SelecaoPeriodo> criarListaSelecaoPeriodo(List<Periodo> lstPeriodo) {
 	List<SelecaoPeriodo> lstSelecaoPeriodo = new ArrayList<SelecaoPeriodo>();
 	for (Periodo periodo: lstPeriodo) {

@@ -13,7 +13,7 @@ import { Gamificacao } from './gamificacao.entidade';
        <div class="panel-body">
        <div class="form-group">
         <label for="participante">Participante:</label>
-        <kungfu-select [selected]="this.gamificacao.idUsuario" required
+        <kungfu-select [selected]="this.gamificacao.idUsuario"
              (selectedChange)="onSelectedChangeParticipante($event)"
              [entidades]="this.participantes"></kungfu-select>
       </div>
@@ -21,8 +21,7 @@ import { Gamificacao } from './gamificacao.entidade';
          <div class="col-sm-1"><label for="mydate">Data:</label></div>
          <div class="col-sm-2">    
             <my-date-picker name="myDate" [options]="datePickerOptions"
-              [(ngModel)]="this.gamificacao.dataCalendario" 
-              required></my-date-picker>
+              [(ngModel)]="this.gamificacao.dataCalendario"></my-date-picker>
          </div>
          <div class="col-sm-9"></div>
       </div>

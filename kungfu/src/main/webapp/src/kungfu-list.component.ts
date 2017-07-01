@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   template: `
     <p>
     <div class="panel panel-primary">
-       <div class="panel-heading"></div>
+       <div class="panel-heading" *ngIf="this.periodo!=''">Lista de Eventos - Período: {{this.periodo}}</div>
        <div class="panel-body">
     <div class="container-fluid">
       <table class="table table-striped">
@@ -52,6 +52,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class KungfuListComponent {
 
   @Input() gamificacoes = [];
+  @Input() periodo = '';
   @Input() isButtonEnabled = false;
   @Output() edit = new EventEmitter();
   @Output() remove = new EventEmitter();

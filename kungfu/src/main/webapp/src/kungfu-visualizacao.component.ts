@@ -5,12 +5,13 @@ import { Gamificacao } from './gamificacao.entidade';
 @Component({
   selector: 'kungfu-visualizacao-app',
   template: `    
-    <kungfu-list [gamificacoes]="this.gamificacoes"></kungfu-list>
+    <kungfu-list [gamificacoes]="this.gamificacoes" [periodo]="this.periodo" ></kungfu-list>
   `,
 })
 export class KungfuVisualizacaoComponent {
 
   gamificacoes : Gamificacao[];
+  periodo = '';
 
   constructor(private gamificacaoService: GamificacaoService) {
     gamificacaoService.errorHandler = error =>
@@ -21,6 +22,9 @@ export class KungfuVisualizacaoComponent {
   private reload() {
     this.gamificacaoService.getGamificacoes()
       .then(gamificacoes => this.gamificacoes = this.parseGamificacao(gamificacoes));
+      
+     this.gamificacaoService.getPeriodoAtual()
+      .then(periodoSelecao => this.periodo = periodoSelecao.descricao);
   }
   
   private parseGamificacao(lstGamificacoesJason) {

@@ -93,6 +93,70 @@ public class GamificacaoREST
 	   }
 	   return lstPontucacaoJSON;
 }
+  @Path("pontuacaoAnual")
+  @Produces({"application/json"})
+  @GET
+  public List<PontuacaoAnualJSON> listarPontuacaoAnual() {	
+    List<List<PontuacaoDTO>> listaPontuacoes = this.gamificacaoBC.listarPontuacaoAnual();
+    List<PontuacaoAnualJSON> dadosPontuacao = criarDadosListagemPontuacaoAnual(listaPontuacoes);
+    return dadosPontuacao;
+  }
+
+private List<PontuacaoAnualJSON> criarDadosListagemPontuacaoAnual(List<List<PontuacaoDTO>> listaPontuacoes) {
+	List<PontuacaoAnualJSON> lstPontuacaoAnualJSON = new ArrayList<PontuacaoAnualJSON>();
+	for (List<PontuacaoDTO> lstPontuacaoUsuario: listaPontuacoes) {
+		PontuacaoAnualJSON pontuacaoAnualUsuarioJSON = new PontuacaoAnualJSON();
+		PontuacaoDTO pontuacaoUsuario1oPeriodo = lstPontuacaoUsuario.get(0);
+		pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario1oPeriodo.getIdUsuario());
+		pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario1oPeriodo.getApelido());
+		pontuacaoAnualUsuarioJSON.pontuacao1oPeriodo = nvl(pontuacaoUsuario1oPeriodo.getPontuacao());
+		pontuacaoAnualUsuarioJSON.avatar1oPeriodo = nvl(pontuacaoUsuario1oPeriodo.getAvatar());
+		PontuacaoDTO pontuacaoUsuario2oPeriodo = lstPontuacaoUsuario.get(1);
+		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
+			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario2oPeriodo.getIdUsuario());
+			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario2oPeriodo.getApelido());
+		}
+		pontuacaoAnualUsuarioJSON.pontuacao2oPeriodo = nvl(pontuacaoUsuario2oPeriodo.getPontuacao());
+		pontuacaoAnualUsuarioJSON.avatar2oPeriodo = nvl(pontuacaoUsuario2oPeriodo.getAvatar());
+		PontuacaoDTO pontuacaoUsuario3oPeriodo = lstPontuacaoUsuario.get(2);
+		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
+			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario3oPeriodo.getIdUsuario());
+			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario3oPeriodo.getApelido());
+		}
+		pontuacaoAnualUsuarioJSON.pontuacao3oPeriodo = nvl(pontuacaoUsuario3oPeriodo.getPontuacao());
+		pontuacaoAnualUsuarioJSON.avatar3oPeriodo = nvl(pontuacaoUsuario3oPeriodo.getAvatar());
+		PontuacaoDTO pontuacaoUsuario4oPeriodo = lstPontuacaoUsuario.get(3);
+		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
+			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario4oPeriodo.getIdUsuario());
+			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario4oPeriodo.getApelido());
+		}
+		pontuacaoAnualUsuarioJSON.pontuacao4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getPontuacao());
+		pontuacaoAnualUsuarioJSON.avatar4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getAvatar());
+		lstPontuacaoAnualJSON.add(pontuacaoAnualUsuarioJSON);
+	}
+	return lstPontuacaoAnualJSON;
+}
+
+private String nvl(String valor) {
+	if (valor == null) {
+		return "";
+	}
+	return valor;
+}
+
+private String nvl(BigDecimal valor) {
+	if (valor == null) {
+		return "";
+	}
+	return String.valueOf(valor);
+}
+
+private String nvl(Long valor) {
+	if (valor == null) {
+		return "";
+	}
+	return String.valueOf(valor);
+}
 
 @Path("selecaoEventos")
   @Produces({"application/json"})
@@ -178,7 +242,7 @@ public class GamificacaoREST
       this.log.info("Realizando registro de evento");
       Date dataEvento = DateUtil.toDate(entrada.dataRegistro);
       try {
-    	Long idGamificacao = null;
+    	  Long idGamificacao = null;
     	if (StringUtils.isNotEmpty(entrada.idGamificacao)) {
     		idGamificacao = Long.valueOf(entrada.idGamificacao);
     	}
@@ -202,7 +266,7 @@ public class GamificacaoREST
   @Consumes({"text/plain"})
   public void excluirEvento(String idGamificacao)
     throws URISyntaxException {   	
-    	Long idEvento = Long.valueOf(idGamificacao);
+	  Long idEvento = Long.valueOf(idGamificacao);
         this.gamificacaoBC.excluir(idEvento);
   }
   
@@ -247,6 +311,19 @@ public class GamificacaoREST
     public String pontuacao;
     public String idRaking;
     public String avatar;
+  }
+  
+  public static class PontuacaoAnualJSON {	  
+	  public String apelido;
+	  public String idUsuario;
+	  public String pontuacao1oPeriodo;
+	  public String avatar1oPeriodo;
+	  public String pontuacao2oPeriodo;
+	  public String avatar2oPeriodo;
+	  public String pontuacao3oPeriodo;
+	  public String avatar3oPeriodo;
+	  public String pontuacao4oPeriodo;
+	  public String avatar4oPeriodo;
   }
   
   public static class SelecaoEvento {

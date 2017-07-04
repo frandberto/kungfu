@@ -48,6 +48,13 @@ export class GamificacaoService {
       .catch(this.errorHandler);
   }
   
+  getRankingAnual() {
+    return this.http.get(`${this.baseUrl}/pontuacaoAnual`)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.errorHandler);
+  }
+  
   getPeriodoAtual() {
     return this.http.get(`${this.baseUrl}/periodoAtual`)
       .toPromise()

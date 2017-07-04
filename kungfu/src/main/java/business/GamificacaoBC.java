@@ -95,7 +95,9 @@ public class GamificacaoBC
 	  List<Object[]> lstResultado = gamificacaoDAO.listarPontuacoes(idPeriodo);
 	  for (Object[] objeto: lstResultado) {
 		  PontuacaoDTO dto = new PontuacaoDTO();
-		  dto.setIdUsuario((Integer)objeto[0]);
+		  // TODO verificar porque está retornando Integer
+		  Integer idUsuario = (Integer) objeto[0];
+		  dto.setIdUsuario(idUsuario.longValue());
 		  dto.setApelido((String)objeto[1]);
 		  dto.setPontuacao((BigDecimal)objeto[2]);
 		  Ranking raking = rankingBC.obterRanking(dto.getPontuacao());
@@ -104,6 +106,58 @@ public class GamificacaoBC
 		  lstPontuacoes.add(dto);
 	  }
 	  return lstPontuacoes;
+  }
+  
+  /**
+   * Lista pontuacao no período indicado para o usuário informado
+   * @param idUsuario
+   * @param idPeriodo
+   * @return
+   */
+  public PontuacaoDTO obterPontuacao(Long idUsuario, Long idPeriodo) {
+	  	  
+	  List<Object[]> lstResultado = gamificacaoDAO.listarPontuacoes(idUsuario, idPeriodo);
+	  PontuacaoDTO dto = new PontuacaoDTO();
+	 // TODO verificar porque está retornando Integer
+	  dto.setIdUsuario(idUsuario.longValue());
+	  for (Object[] objeto: lstResultado) {		  
+		  dto.setApelido((String)objeto[1]);
+		  dto.setPontuacao((BigDecimal)objeto[2]);
+		  Ranking raking = rankingBC.obterRanking(dto.getPontuacao());
+		  dto.setIdRanking(raking.getId());
+		  dto.setAvatar(raking.getAvatar());		  
+	  }
+	  return dto;
+  }
+
+  public List<List<PontuacaoDTO>> listarPontuacaoAnual() {
+	  List<Usuario> lstUsuario = usuarioBC.listarUsuarios();
+	  List<Periodo> lstPeriodo = periodoBC.listarPeriodos();
+	  List<List<PontuacaoDTO>> listPontuacaoAnual = new ArrayList<List<PontuacaoDTO>>();
+	  for (Usuario usuario : lstUsuario) {
+		  List<PontuacaoDTO> lstPontuacaoUsuarioPeriodo = new ArrayList<PontuacaoDTO>();
+		  for (Periodo periodo: lstPeriodo) {
+			  PontuacaoDTO pontuacaoUsuarioPeriodo = obterPontuacao(usuario.getId(), periodo.getId());
+			  lstPontuacaoUsuarioPeriodo.add(pontuacaoUsuarioPeriodo);
+		  }
+		  aplicarRegraFaixaPreta(lstPontuacaoUsuarioPeriodo);
+		  listPontuacaoAnual.add(lstPontuacaoUsuarioPeriodo);
+	  }	  
+	  return listPontuacaoAnual;
+  }
+
+  /**
+   * Aplica a regra para obtenção do nivel de faixa preta
+   * - 2 marrons
+   * - Soma dos pontos do períodos anteriores >= 120 (1 marrom + 1 roxa + 1 azul)
+   * @param listPontuacaoAnual
+   */
+  private void aplicarRegraFaixaPreta(List<PontuacaoDTO> lstPontuacaoUsuarioAnual) {
+	  boolean temMarrom = false;
+	  for (PontuacaoDTO pontuacaoUsuarioPeriodo : lstPontuacaoUsuarioAnual) {
+		  
+		  
+	  }
   }
   
   

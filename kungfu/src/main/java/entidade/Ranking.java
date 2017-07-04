@@ -16,7 +16,7 @@ public class Ranking {
 	@Id
 	@Column(name="id_ranking", unique=true, nullable=false)
 	@GeneratedValue(generator="sq_id_ranking", strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(name="avatar")
 	private String avatar;
@@ -30,11 +30,11 @@ public class Ranking {
 	@Column(name="nivel")
 	private String nivel;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

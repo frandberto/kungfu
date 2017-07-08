@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'kungfu-logo',
   template: ` 
      <div  align="center"> 
-     <img src="../kungfu/images/logo-kungfu2.png" alt="KUNGFU Leader" width="859px" height="300px" > 
+     <img src="../images/logo-kungfu2.png" alt="KUNGFU Leader" width="859px" height="300px" > 
      <div>
   `
 })

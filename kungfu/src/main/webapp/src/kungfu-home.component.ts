@@ -5,7 +5,7 @@ import { KungfuMenuComponent } from './kungfu-menu.component';
 
 @Component({
   selector: 'kungfu-home',
-  templateUrl: 'principal.html',
+  templateUrl: 'home.html',
 })
 export class KungfuHomeComponent { 
     constructor(

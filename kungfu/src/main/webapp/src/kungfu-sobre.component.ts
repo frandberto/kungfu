@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: "sobre.html",
 })
 export class KungfuSobreComponent {
-
-
 }

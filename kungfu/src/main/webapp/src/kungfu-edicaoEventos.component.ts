@@ -3,17 +3,10 @@ import { GamificacaoService } from './gamificacao.service';
 import { Gamificacao } from './gamificacao.entidade';
 
 @Component({
-  selector: 'kungfu-MainPage-app',
-  template: `
-    <kungfu-edit [gamificacao]="this.editableGamificacao" 
-      [eventos]="this.lstEvento" 
-      [participantes]="this.lstParticipante"
-      (save)="save($event)" (clear)="clear()"></kungfu-edit>
-    <kungfu-list [gamificacoes]="this.gamificacoes" [isButtonEnabled]=true
-      (edit)="edit($event)" (remove)="remove($event)"></kungfu-list>
-  `,
+  selector: 'kungfu-edicaoEventos',
+  templateUrl: 'edicaoEventos.html',
 })
-export class KungfuMainPage {
+export class KungfuEdicaoEventosComponent {
 
   gamificacoes : Gamificacao[];
   lstEvento = [];

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <base href="kungfu">
+  <base href=".">
   <title>Kungfu Leader</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,12 +22,17 @@
    </script>
    
 </head>
-<body bgcolor="#CCCCCC">
+<body>
 
 <kungfu-menu></kungfu-menu>
 
 <div class="container">
-   <router-outlet></router-outlet>
+  <kungfu-edit [gamificacao]="this.editableGamificacao" 
+      [eventos]="this.lstEvento" 
+      [participantes]="this.lstParticipante"
+      (save)="save($event)" (clear)="clear()"></kungfu-edit>
+    <kungfu-list [gamificacoes]="this.gamificacoes" [isButtonEnabled]=true
+      (edit)="edit($event)" (remove)="remove($event)"></kungfu-list>
 </div>
 
 <footer class="container-fluid text-center">

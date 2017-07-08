@@ -1,19 +1,49 @@
-<h2><strong><span style="color:#B22222">Kungfu Leader - Gamifica&ccedil;&atilde;o</span></strong></h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <base href=".">
+  <title>Kungfu Leader</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+   <!-- Bootstrap Date-Picker Plugin -->
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+   <link rel="stylesheet" href="./css/kungfu.css"/>
+   
+   <script src="node_modules/core-js/client/shim.min.js"></script>
+   <script src="node_modules/zone.js/dist/zone.js"></script>
+   <script src="node_modules/systemjs/dist/system.src.js"></script>
+   <script src="systemjs.config.js"></script>
+   <script>
+      System.import('app').catch(function(err) { console.error(err);  });
+   </script>
+</head>
+<body>
 
-<p><strong><span style="color:#0000CD">Regras do Jogo:</span></strong></p>
+<kungfu-menu></kungfu-menu>
 
-<ul>
+<div class="container">
+   <!--  Texto Sobre -->
+   
+   <h2><strong><span style="color:#B22222">Kungfu Leader - Gamifica&ccedil;&atilde;o</span></strong></h2>
+
+   <p><strong><span style="color:#0000CD">Regras do Jogo:</span></strong></p>
+
+   <ul>
 	<li>A cada 4 (quatro) meses, ser&aacute; atualizada a pontua&ccedil;&atilde;o dos participante, n&atilde;o sendo acumulativa a pontua&ccedil;&atilde;o;</li>
 	<li>Para se tornar um FAIXA PRETA &eacute; necess&aacute;rio obter, pelo menos, 1 FAIXA MARROM E 2 FAIXAS ROXAS ou 2 FAIXAS MARRONS, ou seja, uma pontua&ccedil;&atilde;o m&iacute;nima de 120 pontos;</li>
 	<li>A tabela de pontos ser&aacute; preenchida diariamente pelo facilitador da COP Lideran&ccedil;a Coaching e estar&aacute; dispon&iacute;vel num endere&ccedil;o do Google Drive e no Voce.Serpro para acompanhamento dos participantes;</li>
 	<li>Tamb&eacute;m ser&aacute; gerado um ranking do jogo por categoria e disponibilizado toda semana;</li>
 	<li>Ao final de cada quadrimestre faremos uma cerim&ocirc;nia de reconhecimento e premia&ccedil;&atilde;o dos participantes que se destacaram em suas categorias;</li>
 	<li>As pontua&ccedil;&otilde;es de eventos via whatsapp, ser&atilde;o contabilizadas em dias de segunda a sexta e de 7h da manh&atilde; &agrave;s 22h.</li>
-</ul>
+   </ul>
 
-<p><span style="color:#0000CD"><strong>Tabela de N&iacute;veis do Game</strong></span></p>
+   <p><span style="color:#0000CD"><strong>Tabela de N&iacute;veis do Game</strong></span></p>
 
-<table border="1" cellspacing="0">
+   <table border="1" cellspacing="0">
 	<thead>
 		<tr>
 			<th scope="col"><strong>N&Iacute;VEIS DO GAME</strong></th>
@@ -45,6 +75,14 @@
 			<td style="text-align: center;"><strong>2 MARRONS</strong></td>
 		</tr>
 	</tbody>
-</table>
+  </table>   
+</div>
 
-<p>&nbsp;</p>
+<footer class="container-fluid text-center">
+ <div class="inner" >
+     <p>Contato: <a href="mailto:#">alana.cavalcante@serpro.gov.br</a></p>
+</div>
+</footer>
+
+</body>
+</html>

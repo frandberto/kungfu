@@ -16,14 +16,14 @@ import {AuthenticationService, User} from './authentication.service'
         <span class="icon-bar"></span>                     
       </button>
       <div>
-      <img class="navbar-header" src="./images/imagem-kungfu2.png" style="width:30%" alt="Image">
+      <img class="navbar-header" src="../images/imagem-kungfu2.png" style="width:30%" alt="Image">
       <a class="navbar-header" href="kungfu">KungFu Leader</a>
       </div>
     </div>
     
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/logo" routerLinkActive="active">Home</a></li>
+        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
         
         <li *ngIf='!isPerfilUsuario()'><a routerLink="/editar" routerLinkActive="active">Editar</a></li>
         <li><a routerLink="/visualizar" routerLinkActive="active">Visualizar</a></li>

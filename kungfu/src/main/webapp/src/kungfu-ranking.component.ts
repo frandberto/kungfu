@@ -3,37 +3,7 @@ import { GamificacaoService } from './gamificacao.service';
 
 @Component({
   selector: 'kungfu-ranking',
-  template: `
-    <p>
-    <div class="panel panel-primary">
-       <div class="panel-heading">Ranking - Período: {{this.periodo}}</div>
-       <div class="panel-body">
-    <div class="container-fluid">
-      <table class="table table-striped">
-        <tr>
-         <th>Participante</th>
-         <th><div align="center">Pontuação</div></th>
-         <th><div align="center">Nível</div></th>
-        </tr>
-        <tr *ngFor="let ranking of rankings">
-          <td>    
-            {{ranking.apelido}}            
-          </td>
-           <td align="center">
-            {{ranking.pontuacao}}
-          </td>
-           <td>
-            <div align="center">
-            <img src="./images/{{ranking.avatar}}.png" alt="{{ranking.avatar}}" height="50" width="50">
-            <br><b>{{ranking.nivel}}</b>
-            </div>
-          </td>          
-        </tr>
-      </table>
-    </div>
-    </div>
-    </div>
-  `,
+  templateUrl: 'rankingPeriodo.html',
 })
 export class KungfuRankingComponent {
 

@@ -4,9 +4,7 @@ import { Gamificacao } from './gamificacao.entidade';
 
 @Component({
   selector: 'kungfu-visualizacao-app',
-  template: `    
-    <kungfu-list [gamificacoes]="this.gamificacoes" [periodo]="this.periodo" ></kungfu-list>
-  `,
+  templateUrl: 'visualizacaoEventos.html',
 })
 export class KungfuVisualizacaoComponent {
 

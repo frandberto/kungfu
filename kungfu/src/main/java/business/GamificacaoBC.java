@@ -7,7 +7,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.omg.CORBA.NVList;
+
 import br.gov.frameworkdemoiselle.stereotype.Controller;
+import business.enumeration.Avatar;
 import business.exception.NegocioException;
 import dto.PontuacaoDTO;
 import entidade.Evento;
@@ -16,6 +19,7 @@ import entidade.Periodo;
 import entidade.Ranking;
 import entidade.Usuario;
 import persistence.GamificacaoDAO;
+import util.BigDecimalUtil;
 
 @Controller
 public class GamificacaoBC
@@ -34,6 +38,9 @@ public class GamificacaoBC
   
   @Inject
   private RankingBC rankingBC;
+  
+  // Pontuacao para obter a faixa preta
+  private static final BigDecimal PONTUACAO_PARA_PRETA = new BigDecimal("120.00"); 
   
   public List<Gamificacao> listar()
   {
@@ -153,14 +160,29 @@ public class GamificacaoBC
    * @param listPontuacaoAnual
    */
   private void aplicarRegraFaixaPreta(List<PontuacaoDTO> lstPontuacaoUsuarioAnual) {
-	  boolean temMarrom = false;
+	  BigDecimal pontuacaoAcumulada = BigDecimal.ZERO;
 	  for (PontuacaoDTO pontuacaoUsuarioPeriodo : lstPontuacaoUsuarioAnual) {
-		  
-		  
+		  BigDecimal pontuacaoPeriodo = BigDecimalUtil.nvl(pontuacaoUsuarioPeriodo.getPontuacao());
+		  pontuacaoAcumulada = pontuacaoAcumulada.add(pontuacaoPeriodo);
+		  if (pontuacaoUsuarioPeriodo.getPontuacao() != null && ehFaixaPreta(pontuacaoAcumulada)) {
+			  pontuacaoUsuarioPeriodo.setAvatar(Avatar.FAIXA_PRETA.getNivel());
+		  }		  
 	  }
   }
   
-  
-  
-  
+  /**
+   * Verifica se a pontuação acumulada é suficiente para obter a faixa preta
+   * @param pontuacaoAcumulada pontuacao acumulada dos períodos
+   * @return verdadeiro, se for faixa preta, de outro modo retorna falso.
+   */
+  private boolean ehFaixaPreta(BigDecimal pontuacaoAcumulada) {
+	  
+	  if (pontuacaoAcumulada.compareTo(PONTUACAO_PARA_PRETA)>=0) {
+		  return true;
+	  } else {
+		  return false;
+	  }
+	  
+  }
+ 
 }

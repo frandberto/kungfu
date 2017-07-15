@@ -1,5 +1,6 @@
 import {Component, ElementRef} from '@angular/core';
-import {AuthenticationService, User} from './authentication.service'
+import {AuthenticationService, User} from './authentication.service';
+import {Router} from '@angular/router';
  
 @Component({
     selector: 'login-form',
@@ -8,15 +9,20 @@ import {AuthenticationService, User} from './authentication.service'
  
 export class LoginComponent {
  
-    public user = new User('','', '');
+    public user = new User('','', '', '', '');
     public errorMsg = '';
  
     constructor(
-        private _service:AuthenticationService) {}
+        private _service:AuthenticationService, private _router: Router) {}
  
     login() {
-        if(!this._service.login(this.user)){
-            this.errorMsg = 'Failed to login';
+        let userLogin = {'codigo': this.user.codigo, 'senha': this.user.password };
+        this._service.login(userLogin);
+        let loggedUser = this._service.getLoggedUser();
+        if(!loggedUser.apelido){
+            this.errorMsg = 'Falha no Login! Verifique o cpf ou a senha.';
+        } else {
+          this._router.navigate(['/home']);
         }
     }
 }

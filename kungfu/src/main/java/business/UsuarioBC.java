@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.gov.frameworkdemoiselle.stereotype.Controller;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import entidade.Usuario;
 import persistence.UsuarioDAO;
 
@@ -18,8 +19,17 @@ public class UsuarioBC
 	  return usuarioDAO.buscarPorID(idUsuario);
   }
   
+  public Usuario buscarPorCodigo(String codigoUsuario) {
+	  return usuarioDAO.obterUsuario(codigoUsuario);
+  }
+  
   public List<Usuario> listarUsuarios() {
 	  return usuarioDAO.listarTodos();
+  }
+
+  @Transactional
+  public void salvar(Usuario usuario) {
+	usuarioDAO.update(usuario);	
   }
   
 }

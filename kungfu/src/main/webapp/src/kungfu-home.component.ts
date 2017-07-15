@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService, User } from './authentication.service';
 import { KungfuMenuComponent } from './kungfu-menu.component';
 
 @Component({
@@ -10,9 +10,11 @@ import { KungfuMenuComponent } from './kungfu-menu.component';
 export class KungfuHomeComponent { 
     constructor(
         private _service:AuthenticationService){}
+        
+    private userLogged : User;
  
     ngOnInit(){
-       // this._service.checkCredentials();
+       this.userLogged = this._service.getLoggedUser();
     }
     
 }

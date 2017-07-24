@@ -20,36 +20,55 @@
    
 </head>
 <body>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">Login</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="form-group">
-					<label for="codigo">CPF :</label> <input
-						[(ngModel)]="user.codigo" id="codigo" type="text" class="validate">
+    <p>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					<img 
+					src="./images/imagem-kungfu2.png" style="width:10%" alt="Image">
+					<label>Login KUNGFU Leader</label></div>
+					<div class="panel-body">
+						<div class="row">
+						    <div class="col-sm-4" align="right">							
+								<label for="codigo">Matrícula</label>
+							</div>
+							<div class="col-sm-2" align="left">
+							 <input
+									[(ngModel)]="user.codigo" id="codigo" type="text"
+									class="validate" size="11">
+							</div>
+						</div>
+                        <p>
+						<div class="row">
+							<div class="col-sm-4" align="right">
+								<label for="password">Senha</label>
+							</div>
+							<div class="col-sm-2" align="left">
+								<input [(ngModel)]="user.password" id="password" type="password"
+									class="validate" size="11">
+							</div>
+						</div>
+						<div class="row" align="center">
+							<span>{{errorMsg.message}}</span>
+						</div>
+						<p>
+						<div class="row" align="center">
+							<button (click)="login()" class="btn btn-primary" type="submit"
+							name="action">Login</button>								
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="form-group">
-					<label for="password">Senha :</label> <input
-						[(ngModel)]="user.password" id="password" type="password"
-						class="validate">
-				</div>
-			</div>
-
-			<span>{{errorMsg}}</span>
-			<div class=row>
-			<button (click)="login()" class="btn btn-primary" type="submit"
-				name="action">Login</button>
-			</div>
+			<div class="col-sm-4"></div>
 		</div>
 	</div>
 
 	<footer class="container-fluid text-center">
      <div class="inner" >
-         <p>Contato: <a href="mailto:#">alana.cavalcante@serpro.gov.br</a></p>
+         <p>Contato: <a href="mailto:#">alana.cavalcanti@serpro.gov.br</a></p>
      </div>
    </footer>
 

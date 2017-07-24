@@ -19,7 +19,6 @@ export class User {
 @Injectable()
 export class AuthenticationService {
 
-  errorHandler = error => console.error('AuthenticationService error', error);
   private baseUrl = 'http://localhost:8080/kungfu/api/kungfu-leader';
 
   loggedUser : User;
@@ -33,21 +32,20 @@ export class AuthenticationService {
   logout() {
     //localStorage.removeItem("user");
     this.loggedUser = null;
-    this._router.navigate(['/login']);
+    this._router.navigate(['/kungfu']);
   }
- 
-  login(user){
-    let loginUser = { 'codigo' : user.codigo, 'senha' : user.senha };
-    let body = JSON.stringify(loginUser);    
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    
-    let authenticatedUserJSON = this.http.post(`${this.baseUrl}/login`, body, options)
-    .toPromise()
-    .then(response => this.criarAuthenticatedUser(response.json()))
-    .catch(this.errorHandler);
-      
-  }
+  
+  login(user, errorMsgObject){
+	    let loginUser = { 'codigo' : user.codigo, 'senha' : user.senha };
+	    let body = JSON.stringify(loginUser);    
+	    let headers = new Headers({ 'Content-Type': 'application/json' });
+	    let options = new RequestOptions({ headers: headers });
+	    
+	    let authenticatedUserJSON = this.http.post(`${this.baseUrl}/login`, body, options)
+	    .toPromise()
+	    .then(response => this.criarAuthenticatedUser(response.json()))
+	    .catch(error => this.tratarLoginError(error, errorMsgObject));
+	  }
   
   getLoggedUser() {
       return this.loggedUser;
@@ -60,15 +58,27 @@ export class AuthenticationService {
   }
   
   criarAuthenticatedUser(authenticatedUserJSON) {
-       let authenticatedUser : User;
-       authenticatedUser = new User('','','','','');
-       authenticatedUser.apelido = authenticatedUserJSON.apelido;
-       authenticatedUser.codigo = authenticatedUserJSON.codigo;
-       authenticatedUser.token = authenticatedUserJSON.token;
-       authenticatedUser.perfil = authenticatedUserJSON.perfil;
-       
-       this.loggedUser = authenticatedUser;
+      let authenticatedUser : User;
+      authenticatedUser = new User('','','','','');
+      authenticatedUser.apelido = authenticatedUserJSON.apelido;
+      authenticatedUser.codigo = authenticatedUserJSON.codigo;
+      authenticatedUser.token = authenticatedUserJSON.token;
+      authenticatedUser.perfil = authenticatedUserJSON.perfil;
+      
+      this.loggedUser = authenticatedUser;
+      this.loginSucess();
+ }
+  
+  tratarLoginError(error, errorMsgObject) {	  
+	  errorMsgObject.message = 'Falha no Login! Verifique a matrícula e senha!';
+	  // this._router.navigate(['/kungfu']);
   }
+  
+  loginSucess() {
+  	console.info('Login realizado com sucesso!');
+  	this._router.navigate(['/home']);
+  }
+
 }
 
 

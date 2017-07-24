@@ -163,10 +163,11 @@ public class GamificacaoBC
 	  BigDecimal pontuacaoAcumulada = BigDecimal.ZERO;
 	  for (PontuacaoDTO pontuacaoUsuarioPeriodo : lstPontuacaoUsuarioAnual) {
 		  BigDecimal pontuacaoPeriodo = BigDecimalUtil.nvl(pontuacaoUsuarioPeriodo.getPontuacao());
-		  pontuacaoAcumulada = pontuacaoAcumulada.add(pontuacaoPeriodo);
+		  // Aplica a regra para o período anterior
 		  if (pontuacaoUsuarioPeriodo.getPontuacao() != null && ehFaixaPreta(pontuacaoAcumulada)) {
 			  pontuacaoUsuarioPeriodo.setAvatar(Avatar.FAIXA_PRETA.getNivel());
-		  }		  
+		  }
+		  pontuacaoAcumulada = pontuacaoAcumulada.add(pontuacaoPeriodo);
 	  }
   }
   

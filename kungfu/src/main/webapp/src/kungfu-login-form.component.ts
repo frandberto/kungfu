@@ -10,19 +10,13 @@ import {Router} from '@angular/router';
 export class LoginComponent {
  
     public user = new User('','', '', '', '');
-    public errorMsg = '';
- 
+    public errorMsg = {message : ''};
+
     constructor(
-        private _service:AuthenticationService, private _router: Router) {}
+        private _service:AuthenticationService) {}
  
     login() {
         let userLogin = {'codigo': this.user.codigo, 'senha': this.user.password };
-        this._service.login(userLogin);
-        let loggedUser = this._service.getLoggedUser();
-        if(!loggedUser.apelido){
-            this.errorMsg = 'Falha no Login! Verifique o cpf ou a senha.';
-        } else {
-          this._router.navigate(['/home']);
-        }
+        	this._service.login(userLogin, this.errorMsg);
     }
 }

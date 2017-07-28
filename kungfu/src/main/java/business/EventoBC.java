@@ -16,7 +16,7 @@ public class EventoBC
   
   public List<Evento> listarEventos()
   {
-    return this.eventoDAO.listarTodos();
+    return this.eventoDAO.listarTodosNaoExcluidos();
   }
 
   public Evento buscarPorID(Long idEvento) {

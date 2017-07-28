@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import business.enumeration.Perfil;
+
 @Entity
 @Table(name="usuario", schema="public")
 @SequenceGenerator(schema="public", allocationSize=1, name="sq_id_usuario")
@@ -41,6 +43,13 @@ public class Usuario
 	@Column(name="data_token")
 	Date dataToken;
 	
+	@Column(name="in_perfil")
+	String perfil;
+	
+	public Perfil getPerfil() {
+		return Perfil.getPerfil(perfil);
+	}
+
 	public Date getDataToken() {
 		return dataToken;
 	}

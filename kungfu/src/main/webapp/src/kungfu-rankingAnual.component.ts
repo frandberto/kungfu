@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GamificacaoService } from './gamificacao.service';
 
 @Component({
@@ -9,19 +9,23 @@ export class KungfuRankingAnualComponent {
 
  rankings = [];
  idPeriodo = "";
+ @Input() @Output() lstExercicios = [{'id':'2016', 'descricao':'2016'},
+	                                 {'id':'2017', 'descricao':'2017'}];
+ private idExercicioSelecionado: string;
  
  constructor(private gamificacaoService: GamificacaoService) {
+	this.idExercicioSelecionado = "2016";
     gamificacaoService.errorHandler = error =>
       window.alert('Falha na requisição do serviço');
     this.reload();
   }
   
   private reload() {
-    this.gamificacaoService.getRankingAnual()
+    this.gamificacaoService.getRankingAnual(this.idExercicioSelecionado)
       .then(rankings => this.rankings = this.parseRankingAnual(rankings));
       
-    this.gamificacaoService.getPeriodoAtual()
-      .then(periodoSelecao => this.idPeriodo = periodoSelecao.idPeriodo);
+//    this.gamificacaoService.getPeriodoAtual()
+//      .then(periodoSelecao => this.idPeriodo = periodoSelecao.idPeriodo);
   }
   
   /*
@@ -42,10 +46,7 @@ export class KungfuRankingAnualComponent {
                             'nivel2oPeriodo': this.getNivel(ranking.avatar2oPeriodo),
                             'pontuacao3oPeriodo':ranking.pontuacao3oPeriodo,
                             'avatar3oPeriodo':ranking.avatar3oPeriodo,
-                            'nivel3oPeriodo': this.getNivel(ranking.avatar3oPeriodo),
-                            'pontuacao4Periodo':ranking.pontuacao4oPeriodo,
-                            'avatar4oPeriodo':ranking.avatar4oPeriodo,
-                            'nivel4oPeriodo': this.getNivel(ranking.avatar4oPeriodo)};
+                            'nivel3oPeriodo': this.getNivel(ranking.avatar3oPeriodo)};
           indice++;
       }
       return lstRanking;
@@ -54,6 +55,11 @@ export class KungfuRankingAnualComponent {
   private getNivel(avatar) {
       let nivel = avatar.replace("faixa", "Faixa ");
       return nivel;
+  }
+  
+  onSelectedChangeExercicio(idExercicio) {
+      this.idExercicioSelecionado = idExercicio;
+      this.reload();
   }
   
  

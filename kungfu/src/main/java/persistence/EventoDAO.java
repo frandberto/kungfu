@@ -27,8 +27,15 @@ public class EventoDAO
     return null;
   }
   
-  public Class<Evento> getClassePaginacao()
-  {
+  public Class<Evento> getClassePaginacao() {
     return Evento.class;
+  }
+
+  public List<Evento> listarTodosNaoExcluidos() {
+	  String sql = "select a from Evento a  where a.situacao <> 'E'";
+	  TypedQuery<Evento> query = getEntityManager().createQuery(sql, Evento.class);
+
+	  List<Evento> resultado = query.getResultList();
+	  return resultado;
   }
 }

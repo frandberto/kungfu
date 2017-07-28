@@ -13,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -61,10 +62,10 @@ public class GamificacaoREST
     return dadosGameficacacao;
   }
   
-  @Path("pontuacoes")
+  @Path("pontuacoes/{idPeriodoJason}")
   @Produces({"application/json"})
   @GET
-  public List<PontuacaoJSON> listarPontuacoes(String idPeriodoJason) {
+  public List<PontuacaoJSON> listarPontuacoes(@PathParam("idPeriodoJason") String idPeriodoJason) {
 	Long idPeriodo;
 	
 	if (idPeriodoJason.isEmpty()) {		
@@ -93,11 +94,11 @@ public class GamificacaoREST
 	   }
 	   return lstPontucacaoJSON;
 }
-  @Path("pontuacaoAnual")
+  @Path("pontuacaoAnual/{idExercicioJason}")
   @Produces({"application/json"})
   @GET
-  public List<PontuacaoAnualJSON> listarPontuacaoAnual() {	
-    List<List<PontuacaoDTO>> listaPontuacoes = this.gamificacaoBC.listarPontuacaoAnual();
+  public List<PontuacaoAnualJSON> listarPontuacaoAnual(@PathParam("idExercicioJason") String idExercicioJason) {	
+    List<List<PontuacaoDTO>> listaPontuacoes = this.gamificacaoBC.listarPontuacaoAnual(idExercicioJason);
     List<PontuacaoAnualJSON> dadosPontuacao = criarDadosListagemPontuacaoAnual(listaPontuacoes);
     return dadosPontuacao;
   }
@@ -111,27 +112,20 @@ private List<PontuacaoAnualJSON> criarDadosListagemPontuacaoAnual(List<List<Pont
 		pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario1oPeriodo.getApelido());
 		pontuacaoAnualUsuarioJSON.pontuacao1oPeriodo = nvl(pontuacaoUsuario1oPeriodo.getPontuacao());
 		pontuacaoAnualUsuarioJSON.avatar1oPeriodo = nvl(pontuacaoUsuario1oPeriodo.getAvatar());
-		PontuacaoDTO pontuacaoUsuario2oPeriodo = lstPontuacaoUsuario.get(1);
-		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
-			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario2oPeriodo.getIdUsuario());
-			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario2oPeriodo.getApelido());
-		}
+		PontuacaoDTO pontuacaoUsuario2oPeriodo = lstPontuacaoUsuario.get(1);		
 		pontuacaoAnualUsuarioJSON.pontuacao2oPeriodo = nvl(pontuacaoUsuario2oPeriodo.getPontuacao());
 		pontuacaoAnualUsuarioJSON.avatar2oPeriodo = nvl(pontuacaoUsuario2oPeriodo.getAvatar());
-		PontuacaoDTO pontuacaoUsuario3oPeriodo = lstPontuacaoUsuario.get(2);
-		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
-			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario3oPeriodo.getIdUsuario());
-			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario3oPeriodo.getApelido());
-		}
+		PontuacaoDTO pontuacaoUsuario3oPeriodo = lstPontuacaoUsuario.get(2);		
 		pontuacaoAnualUsuarioJSON.pontuacao3oPeriodo = nvl(pontuacaoUsuario3oPeriodo.getPontuacao());
 		pontuacaoAnualUsuarioJSON.avatar3oPeriodo = nvl(pontuacaoUsuario3oPeriodo.getAvatar());
-		PontuacaoDTO pontuacaoUsuario4oPeriodo = lstPontuacaoUsuario.get(3);
-		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
-			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario4oPeriodo.getIdUsuario());
-			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario4oPeriodo.getApelido());
-		}
-		pontuacaoAnualUsuarioJSON.pontuacao4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getPontuacao());
-		pontuacaoAnualUsuarioJSON.avatar4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getAvatar());
+// São 3 ciclos
+//		PontuacaoDTO pontuacaoUsuario4oPeriodo = lstPontuacaoUsuario.get(3);
+//		if (pontuacaoAnualUsuarioJSON.apelido.equals("")) {
+//			pontuacaoAnualUsuarioJSON.idUsuario = nvl(pontuacaoUsuario4oPeriodo.getIdUsuario());
+//			pontuacaoAnualUsuarioJSON.apelido = nvl(pontuacaoUsuario4oPeriodo.getApelido());
+//		}
+//		pontuacaoAnualUsuarioJSON.pontuacao4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getPontuacao());
+//		pontuacaoAnualUsuarioJSON.avatar4oPeriodo = nvl(pontuacaoUsuario4oPeriodo.getAvatar());
 		lstPontuacaoAnualJSON.add(pontuacaoAnualUsuarioJSON);
 	}
 	return lstPontuacaoAnualJSON;
@@ -322,8 +316,6 @@ private String nvl(Long valor) {
 	  public String avatar2oPeriodo;
 	  public String pontuacao3oPeriodo;
 	  public String avatar3oPeriodo;
-	  public String pontuacao4oPeriodo;
-	  public String avatar4oPeriodo;
   }
   
   public static class SelecaoEvento {

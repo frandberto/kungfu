@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.omg.CORBA.NVList;
-
 import br.gov.frameworkdemoiselle.stereotype.Controller;
 import business.enumeration.Avatar;
 import business.exception.NegocioException;
@@ -121,30 +119,36 @@ public class GamificacaoBC
    * @param idPeriodo
    * @return
    */
-  public PontuacaoDTO obterPontuacao(Long idUsuario, Long idPeriodo) {
-	  	  
-	  List<Object[]> lstResultado = gamificacaoDAO.listarPontuacoes(idUsuario, idPeriodo);
+  public PontuacaoDTO obterPontuacao(Usuario usuario, Long idPeriodo) {
+
+	  List<Object[]> lstResultado = gamificacaoDAO.listarPontuacoes(usuario.getId(), idPeriodo);
 	  PontuacaoDTO dto = new PontuacaoDTO();
-	 // TODO verificar porque está retornando Integer
-	  dto.setIdUsuario(idUsuario.longValue());
-	  for (Object[] objeto: lstResultado) {		  
-		  dto.setApelido((String)objeto[1]);
-		  dto.setPontuacao((BigDecimal)objeto[2]);
-		  Ranking raking = rankingBC.obterRanking(dto.getPontuacao());
-		  dto.setIdRanking(raking.getId());
-		  dto.setAvatar(raking.getAvatar());		  
+	  // TODO verificar porque está retornando Integer
+	  dto.setIdUsuario(usuario.getId());
+	  dto.setApelido(new String(usuario.getApelido()));
+	  if  (lstResultado.size() == 0) {
+		  dto.setPontuacao(BigDecimal.ZERO);
+	  } else {
+		  Object objeto[] = lstResultado.get(0);	
+		  dto.setPontuacao(BigDecimalUtil.nvl((BigDecimal)objeto[2], BigDecimal.ZERO));
 	  }
+	  Ranking raking = rankingBC.obterRanking(dto.getPontuacao());
+	  dto.setIdRanking(raking.getId());
+	  dto.setAvatar(raking.getAvatar());		  
+
 	  return dto;
   }
 
-  public List<List<PontuacaoDTO>> listarPontuacaoAnual() {
-	  List<Usuario> lstUsuario = usuarioBC.listarUsuarios();
-	  List<Periodo> lstPeriodo = periodoBC.listarPeriodos();
+  public List<List<PontuacaoDTO>> listarPontuacaoAnual(String exercicio) {
+	  List<Usuario> lstUsuario = usuarioBC.listarUsuariosSemAdmin();
+	  //String exercicioAtual = DateUtil.formatar(DateUtil.dataAtual(), "YYYY");
+	  //String exercicioAtual = "2016";
+	  List<Periodo> lstPeriodo = periodoBC.listarPeriodos(exercicio);
 	  List<List<PontuacaoDTO>> listPontuacaoAnual = new ArrayList<List<PontuacaoDTO>>();
 	  for (Usuario usuario : lstUsuario) {
 		  List<PontuacaoDTO> lstPontuacaoUsuarioPeriodo = new ArrayList<PontuacaoDTO>();
 		  for (Periodo periodo: lstPeriodo) {
-			  PontuacaoDTO pontuacaoUsuarioPeriodo = obterPontuacao(usuario.getId(), periodo.getId());
+			  PontuacaoDTO pontuacaoUsuarioPeriodo = obterPontuacao(usuario, periodo.getId());
 			  lstPontuacaoUsuarioPeriodo.add(pontuacaoUsuarioPeriodo);
 		  }
 		  aplicarRegraFaixaPreta(lstPontuacaoUsuarioPeriodo);

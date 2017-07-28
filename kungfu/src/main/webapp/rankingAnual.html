@@ -29,16 +29,20 @@
 <div class="container">
    <p>
     <div class="panel panel-primary">
-       <div class="panel-heading">Ranking Anual</div>
+       <div class="panel-heading">Ranking Anual - Exercício: 
+          <kungfu-select [selected]="this.idExercicioSelecionado" 
+              [entidades]="this.lstExercicios"
+              (selectedChange)="onSelectedChangeExercicio($event)">
+           </kungfu-select>       
+       </div>
        <div class="panel-body">
     <div class="container-fluid">
-      <table class="table table-striped" style="border: 1px solid black; border-collapse: collapse;">
+      <table class="table table-striped" style="border-collapse: collapse;">
         <tr>
          <th rowspan=2><div align="center"><b>Participante</b></div></th>
-         <th colspan=1><div align="center"><b>1º Trimestre</b></div></th>
-         <th colspan=1><div align="center"><b>2º Trimestre</b></div></th>  
-         <th colspan=1><div align="center"><b>3º Trimestre</b></div></th>
-         <th colspan=1><div align="center"><b>4º Trimestre</b></div></th>
+         <th colspan=1><div align="center"><b>1º Quadrimestre</b></div></th>
+         <th colspan=1><div align="center"><b>2º Quadrimestre</b></div></th>  
+         <th colspan=1><div align="center"><b>3º Quadrimestre</b></div></th>
          </tr>
          <tr>        
          <td><div align="center"><b>Nível</b></div></td>         
@@ -47,7 +51,6 @@
          
          <td><div align="center"><b>Nível</b></div></td>
          
-         <td><div align="center"><b>Nível</b></div></td>
         </tr>
         <tr *ngFor="let ranking of rankings">
           <td>    
@@ -72,14 +75,7 @@
             <img src="../images/{{ranking.avatar3oPeriodo}}.png" alt="{{ranking.avatar3oPeriodo}}" height="50" width="50">
             <br><b>{{ranking.nivel3oPeriodo}}</b>
             </div>
-          </td>          
-          
-           <td>
-            <div align="center">
-            <img src="../images/{{ranking.avatar4oPeriodo}}.png" alt="{{ranking.avatar4oPeriodo}}" height="50" width="50">
-            <br><b>{{ranking.nivel4oPeriodo}}</b>
-            </div>
-          </td>              
+          </td>
         </tr>
       </table>
     </div>
@@ -89,7 +85,7 @@
 
 <footer class="container-fluid text-center">
  <div class="inner" >
-     <p>Contato: <a href="mailto:#">alana.cavalcante@serpro.gov.br</a></p>
+     <p>Contato: <a href="mailto:#">alana.cavalcanti@serpro.gov.br</a></p>
 </div>
 </footer>
 

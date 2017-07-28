@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GamificacaoService } from './gamificacao.service';
 
 @Component({
@@ -7,8 +7,9 @@ import { GamificacaoService } from './gamificacao.service';
 })
 export class KungfuRankingComponent {
 
- rankings = [];
- periodo = "";
+ private rankings = [];
+ @Input() @Output() lstPeriodo = [];
+ private idPeriodoSelecionado: string;
  
  constructor(private gamificacaoService: GamificacaoService) {
     gamificacaoService.errorHandler = error =>
@@ -17,11 +18,30 @@ export class KungfuRankingComponent {
   }
   
   private reload() {
-    this.gamificacaoService.getRankings()
+    this.gamificacaoService.getRankingsPorPeriodo(this.idPeriodoSelecionado)
       .then(rankings => this.rankings = this.parseRanking(rankings));
+    
+    this.gamificacaoService.getPeriodos()
+    .then(periodos => this.lstPeriodo = this.parsePeriodo(periodos));
       
-    this.gamificacaoService.getPeriodoAtual()
-      .then(periodoSelecao => this.periodo = periodoSelecao.descricao);
+//    this.gamificacaoService.getPeriodoAtual()
+//      .then(periodoSelecao => this.periodo = periodoSelecao.descricao);
+  }
+  
+  onSelectedChangePeriodo(idPeriodo) {
+      console.info("Periodo selecionado", idPeriodo);
+      this.idPeriodoSelecionado = idPeriodo;
+      this.gamificacaoService.getRankingsPorPeriodo(this.idPeriodoSelecionado)
+      .then(rankings => this.rankings = this.parseRanking(rankings));
+  }
+  
+  private obterPeriodo(idPeriodo) {
+	  for (let periodo of this.lstPeriodo) {
+		  if (periodo.id == idPeriodo) {
+			  return periodo;
+		  }
+	  }
+	  return null;
   }
   
   /*
@@ -41,6 +61,21 @@ export class KungfuRankingComponent {
           indice++;
       }
       return lstRanking;
+  }
+  
+  /*
+   * Parse da lista de periodos para o formato de seleção
+   */
+  private parsePeriodo(periodos) {
+      let lstPeriodo = [];
+      let indice: number;
+      indice = 0;
+      for (let periodo of periodos) {
+    	  lstPeriodo[indice]={'id':periodo.idPeriodo, 
+                            'descricao':periodo.descricao};
+          indice++;
+      }
+      return lstPeriodo;
   }
   
   private getNivel(avatar) {

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
+import business.enumeration.Perfil;
+import entidade.Evento;
 import entidade.Usuario;
 
 @PersistenceController
@@ -31,5 +33,27 @@ public class UsuarioDAO
   {
     return Usuario.class;
   }
+
+  public List<Usuario> listar() {
+	  String sql = "select a from Usuario a "
+			  + " order by a.apelido asc";
+
+	  TypedQuery<Usuario> query = getEntityManager().createQuery(sql, Usuario.class);
+
+	  List<Usuario> resultado = query.getResultList();
+	  return resultado;
+  }
+
+	public List<Usuario> listarSemAdmin() {
+		String sql = "select a from Usuario a " +
+				" where a.perfil <> :perfilAdmin " + 
+				" order by a.apelido asc";
+
+		TypedQuery<Usuario> query = getEntityManager().createQuery(sql, Usuario.class);
+		query.setParameter("perfilAdmin", Perfil.ADMIN.getCodigo());
+
+		List<Usuario> resultado = query.getResultList();
+		return resultado;
+	}
 
 }

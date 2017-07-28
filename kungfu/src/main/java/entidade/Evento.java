@@ -27,6 +27,17 @@ public class Evento {
 
 	@Column(name="pontuacao")
 	private BigDecimal pontuacao;
+	
+	@Column(name="in_situacao")
+	private String situacao;
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
 
 	public BigDecimal getPontuacao() {
 		return pontuacao;

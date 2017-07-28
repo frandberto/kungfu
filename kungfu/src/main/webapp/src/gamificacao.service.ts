@@ -48,8 +48,31 @@ export class GamificacaoService {
       .catch(this.errorHandler);
   }
   
-  getRankingAnual() {
-    return this.http.get(`${this.baseUrl}/pontuacaoAnual`)
+  getRankingsPorPeriodo(idPeriodo) {
+	    let myHeaders = new Headers();
+	    myHeaders.append('Content-Type', 'application/json');    
+	    let myParams = new URLSearchParams();
+	    myParams.append('idPeriodoJason', idPeriodo);	
+	    let options = new RequestOptions({ headers: myHeaders, params: myParams });
+	    if (!idPeriodo) {
+	    	idPeriodo = "0";
+	    }
+	  
+	    return this.http.get(`${this.baseUrl}/pontuacoes/${idPeriodo}`)
+	      .toPromise()
+	      .then(response => response.json())
+	      .catch(this.errorHandler);
+	  }
+  
+  getPeriodos() {
+	    return this.http.get(`${this.baseUrl}/selecaoPeriodos`)
+	      .toPromise()
+	      .then(response => response.json())
+	      .catch(this.errorHandler);
+  }
+  
+  getRankingAnual(idExercicio) {
+    return this.http.get(`${this.baseUrl}/pontuacaoAnual/${idExercicio}`)
       .toPromise()
       .then(response => response.json())
       .catch(this.errorHandler);

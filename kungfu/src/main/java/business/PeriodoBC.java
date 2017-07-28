@@ -28,7 +28,11 @@ public class PeriodoBC
 	}
 
 	public List<Periodo> listarPeriodos() {
-		return periodoDAO.listarTodos();
+		return periodoDAO.listar();
+	}
+
+	public List<Periodo> listarPeriodos(String exercicioAtual) {
+		return periodoDAO.listar(exercicioAtual);
 	}
   
 }

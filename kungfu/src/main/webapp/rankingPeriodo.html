@@ -29,7 +29,12 @@
 <div class="container">
    <p>
     <div class="panel panel-primary">
-       <div class="panel-heading">Ranking - Período: {{this.periodo}}</div>
+       <div class="panel-heading">Ranking - Período: 
+       <kungfu-select [selected]="this.idPeriodoSelecionado" 
+              [entidades]="this.lstPeriodo"
+              (selectedChange)="onSelectedChangePeriodo($event)">
+        </kungfu-select>
+   </div>
        <div class="panel-body">
     <div class="container-fluid">
       <table class="table table-striped">

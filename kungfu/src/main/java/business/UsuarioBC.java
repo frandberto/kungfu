@@ -24,7 +24,11 @@ public class UsuarioBC
   }
   
   public List<Usuario> listarUsuarios() {
-	  return usuarioDAO.listarTodos();
+	  return usuarioDAO.listar();
+  }
+  
+  public List<Usuario> listarUsuariosSemAdmin() {
+	  return usuarioDAO.listarSemAdmin();
   }
 
   @Transactional

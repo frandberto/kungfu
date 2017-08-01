@@ -3,17 +3,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'kungfu-list',
   template: `
-    <p>
-    <div class="panel panel-primary">
-       <div class="panel-heading" *ngIf="this.periodo!=''">Lista de Eventos - Período: {{this.periodo}}</div>
-       <div class="panel-body">
-    <div class="container-fluid">
+    <div class="panel-body">
+     <div class="container-fluid">
       <table class="table table-striped">
         <tr>
          <th>Participante</th>
-         <th>Data</th>
+         <th><div align="center">Data</div></th>
          <th>Evento</th>
-         <th>Pontuação</th>
+         <th><div align="center">Pontuação</div></th>
          <th>Observação</th>
          <th *ngIf="this.isButtonEnabled">Ações</th>
         </tr>
@@ -22,13 +19,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
           <td>
             {{gamificacao.apelido}}
           </td>
-           <td>
+           <td align='center'>
             {{ this.getDataFormatada(gamificacao.dataRegistro) }}
           </td>
            <td>
             {{gamificacao.nomeEvento}}
           </td>
-           <td>
+           <td align='center'>
             {{gamificacao.pontuacao}}
           </td>
            <td>
@@ -44,7 +41,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
           </td>
         </tr>
       </table>
-    </div>
     </div>
     </div>
   `,

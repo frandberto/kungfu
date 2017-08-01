@@ -57,7 +57,8 @@ export class KungfuRankingComponent {
                             'idRaking':ranking.idRaking, 
                             'pontuacao':ranking.pontuacao,
                             'avatar':ranking.avatar,
-                            'nivel': this.getNivel(ranking.avatar)};
+                            'nivel': this.getNivel(ranking.avatar),
+                            'cor' : this.getCorFaixa(ranking.avatar)};
           indice++;
       }
       return lstRanking;
@@ -83,5 +84,25 @@ export class KungfuRankingComponent {
       return nivel;
   }
   
+  public getCorFaixa(avatar) {
+	  if (avatar == 'faixaPreta') {
+		  return "#000000";
+	  }
+	  
+	  if (avatar == 'faixaMarrom') {
+		  return "#7A6060";
+	  }
+	  
+	  if (avatar == 'faixaRoxa') {
+		  return "#9049A2";
+	  }
+	  
+	  if (avatar == 'faixaAzul') {
+		  return "#0000FF";
+	  }
+	  
+	  // Default
+	  return "#fffff";
+   }
  
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.gov.frameworkdemoiselle.stereotype.Controller;
+import business.enumeration.Ordenacao;
 import entidade.Periodo;
 import persistence.PeriodoDAO;
 
@@ -27,8 +28,11 @@ public class PeriodoBC
 		return periodoDAO.buscarPorID(idPeriodo);
 	}
 
-	public List<Periodo> listarPeriodos() {
-		return periodoDAO.listar();
+	public List<Periodo> listarPeriodos(Ordenacao ordenacao) {
+		if (ordenacao.equals(Ordenacao.ASCENDENTE)) {
+			return periodoDAO.listarAscendente();
+		}
+		return periodoDAO.listarDescendenter();
 	}
 
 	public List<Periodo> listarPeriodos(String exercicioAtual) {

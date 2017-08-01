@@ -24,7 +24,9 @@ import business.EventoBC;
 import business.GamificacaoBC;
 import business.PeriodoBC;
 import business.UsuarioBC;
+import business.enumeration.Ordenacao;
 import business.exception.NegocioException;
+import dto.HiistoricoRankingUsuarioDTO;
 import dto.PontuacaoDTO;
 import entidade.Evento;
 import entidade.Gamificacao;
@@ -58,6 +60,22 @@ public class GamificacaoREST
   public List<GamificacaoJSON> listar()
   {
     List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar();
+    List<GamificacaoJSON> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
+    return dadosGameficacacao;
+  }
+  
+  @Path("gamificacoesPorPeriodo/{idPeriodoJason}")
+  @Produces({"application/json"})  
+  @GET
+  public List<GamificacaoJSON> listarPorPeriodo(@PathParam("idPeriodoJason") String idPeriodoJason)
+  {
+	Long idPeriodo = 0L;
+	if (idPeriodoJason.isEmpty() || idPeriodoJason.equals("undefined")) {
+		idPeriodo = periodoBC.obterPeriodo(DateUtil.dataAtual()).getId();
+	} else {
+		idPeriodo = Long.valueOf(idPeriodoJason);
+	}
+    List<Gamificacao> listaGameficacao = this.gamificacaoBC.listar(idPeriodo);
     List<GamificacaoJSON> dadosGameficacacao = criarDadosListagemGameficacao(listaGameficacao);
     return dadosGameficacacao;
   }
@@ -101,6 +119,32 @@ public class GamificacaoREST
     List<List<PontuacaoDTO>> listaPontuacoes = this.gamificacaoBC.listarPontuacaoAnual(idExercicioJason);
     List<PontuacaoAnualJSON> dadosPontuacao = criarDadosListagemPontuacaoAnual(listaPontuacoes);
     return dadosPontuacao;
+  }
+  
+  @Path("historicoRanking")
+  @Produces({"application/json"})
+  @GET
+  public List<HistoricoRankingJSON> listarHistoricoRanking() {
+    List<HiistoricoRankingUsuarioDTO> listaHistoricoRankingUsuario = this.gamificacaoBC.listarHistoricoRanking();
+    List<HistoricoRankingJSON> dadosPontuacao = criarDadosListagemHistoricoRankingl(listaHistoricoRankingUsuario);
+    return dadosPontuacao;
+  }
+
+  private List<HistoricoRankingJSON> criarDadosListagemHistoricoRankingl(
+		  List<HiistoricoRankingUsuarioDTO> lstHistoricoRankingUsuario) {
+	  List<HistoricoRankingJSON> lstPontuacaoHistoricoRankingJSON = new ArrayList<HistoricoRankingJSON>();
+	  for (HiistoricoRankingUsuarioDTO historicoRanking: lstHistoricoRankingUsuario) {
+		  HistoricoRankingJSON historicoJSON = new HistoricoRankingJSON();
+		  historicoJSON.apelido = historicoRanking.getUsuario().getApelido();
+		  historicoJSON.idUsuario = String.valueOf(historicoRanking.getUsuario().getId());
+		  historicoJSON.qtdFaixaBranca = String.valueOf(historicoRanking.getQtdFaixaBranca());
+		  historicoJSON.qtdFaixaAzul = String.valueOf(historicoRanking.getQtdFaixaAzul());
+		  historicoJSON.qtdFaixaRoxa = String.valueOf(historicoRanking.getQtdFaixaRoxa());
+		  historicoJSON.qtdFaixaMarrom = String.valueOf(historicoRanking.getQtdFaixaMarom());
+		  historicoJSON.qtdFaixaPreta = String.valueOf(historicoRanking.getQtdFaixaPreta());
+		  lstPontuacaoHistoricoRankingJSON.add(historicoJSON);
+	  }
+	  return lstPontuacaoHistoricoRankingJSON;
   }
 
 private List<PontuacaoAnualJSON> criarDadosListagemPontuacaoAnual(List<List<PontuacaoDTO>> listaPontuacoes) {
@@ -177,7 +221,7 @@ private String nvl(Long valor) {
   @Produces({"application/json"})
   @GET
   public List<SelecaoPeriodo> listarPeriodo() {
-    List<Periodo> lstPeriodo = periodoBC.listarPeriodos();
+    List<Periodo> lstPeriodo = periodoBC.listarPeriodos(Ordenacao.DESCENDENTE);
     List<SelecaoPeriodo> lstSelecaoPeriodo = criarListaSelecaoPeriodo(lstPeriodo);
     return lstSelecaoPeriodo;
   }
@@ -234,7 +278,7 @@ private String nvl(Long valor) {
     		(!StringUtils.isEmpty(entrada.idUsuario))) {
       
       this.log.info("Realizando registro de evento");
-      Date dataEvento = DateUtil.toDate(entrada.dataRegistro);
+      Date dataEvento = DateUtil.toDate(entrada.dataRegistro, "yyyy-MM-dd");
       try {
     	  Long idGamificacao = null;
     	if (StringUtils.isNotEmpty(entrada.idGamificacao)) {
@@ -317,6 +361,16 @@ private String nvl(Long valor) {
 	  public String pontuacao3oPeriodo;
 	  public String avatar3oPeriodo;
   }
+  
+  public static class HistoricoRankingJSON {	  
+	    public String apelido;
+	    public String idUsuario;
+	    public String qtdFaixaBranca;
+	    public String qtdFaixaAzul;
+	    public String qtdFaixaRoxa;
+	    public String qtdFaixaMarrom;
+	    public String qtdFaixaPreta;
+	  }
   
   public static class SelecaoEvento {
 	    public String idEvento;

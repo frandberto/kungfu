@@ -9,7 +9,9 @@ import javax.inject.Inject;
 
 import br.gov.frameworkdemoiselle.stereotype.Controller;
 import business.enumeration.Avatar;
+import business.enumeration.Ordenacao;
 import business.exception.NegocioException;
+import dto.HiistoricoRankingUsuarioDTO;
 import dto.PontuacaoDTO;
 import entidade.Evento;
 import entidade.Gamificacao;
@@ -18,6 +20,7 @@ import entidade.Ranking;
 import entidade.Usuario;
 import persistence.GamificacaoDAO;
 import util.BigDecimalUtil;
+import util.DateUtil;
 
 @Controller
 public class GamificacaoBC
@@ -180,14 +183,45 @@ public class GamificacaoBC
    * @param pontuacaoAcumulada pontuacao acumulada dos períodos
    * @return verdadeiro, se for faixa preta, de outro modo retorna falso.
    */
-  private boolean ehFaixaPreta(BigDecimal pontuacaoAcumulada) {
-	  
+  private boolean ehFaixaPreta(BigDecimal pontuacaoAcumulada) {	  
 	  if (pontuacaoAcumulada.compareTo(PONTUACAO_PARA_PRETA)>=0) {
 		  return true;
 	  } else {
 		  return false;
-	  }
-	  
+	  }	  
   }
+
+  public List<HiistoricoRankingUsuarioDTO> listarHistoricoRanking() {
+	  List<Usuario> lstUsuario = usuarioBC.listarUsuariosSemAdmin();
+	  List<Periodo> lstPeriodo = periodoBC.listarPeriodos(Ordenacao.ASCENDENTE);
+	  List<HiistoricoRankingUsuarioDTO> lstHistoricoRanking = new ArrayList<HiistoricoRankingUsuarioDTO>();
+	  Periodo periodoAtual = periodoBC.obterPeriodo(DateUtil.dataAtual());
+	  for (Usuario usuario : lstUsuario) {
+		  HiistoricoRankingUsuarioDTO historicoUsuario = new HiistoricoRankingUsuarioDTO();
+		  historicoUsuario.setUsuario(usuario);
+		  for (Periodo periodo: lstPeriodo) {			  
+			  PontuacaoDTO pontuacaoUsuarioPeriodo = obterPontuacao(usuario, periodo.getId());
+			  historicoUsuario.atribuirRanking(pontuacaoUsuarioPeriodo.getAvatar());
+			  // Se não for o ciclo atual aplica a regra de faixa preta
+			  if (periodoAtual == null || !periodoAtual.getId().equals(periodo.getId())) {
+				  aplicarRegraFaixaPreta(historicoUsuario);
+			  }
+		  }	
+		  lstHistoricoRanking.add(historicoUsuario);
+	  }	 
+	  return lstHistoricoRanking;
+  }
+
+private void aplicarRegraFaixaPreta(HiistoricoRankingUsuarioDTO historicoUsuario) {
+	// 1 MARROM + 1 ROXA + 1 AZUL
+	 if (historicoUsuario.getQtdFaixaAzul() == 1 && historicoUsuario.getQtdFaixaAzul()  == 1 &&
+			  historicoUsuario.getQtdFaixaMarom() == 1 ) {
+		  historicoUsuario.setQtdFaixaPreta(1);
+	  }
+	  // 2 MARRONS
+	  if ( historicoUsuario.getQtdFaixaMarom() == 2 ) {
+		  historicoUsuario.setQtdFaixaPreta(1);
+	  }	
+}
  
 }

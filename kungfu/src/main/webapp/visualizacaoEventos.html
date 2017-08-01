@@ -27,7 +27,16 @@
 <kungfu-menu></kungfu-menu>
 
 <div class="container">
-   <kungfu-list [gamificacoes]="this.gamificacoes" [periodo]="this.periodo" ></kungfu-list>
+   <p>
+   <div class="panel panel-primary">
+       <div class="panel-heading">Lista de Eventos - Período: 
+       <kungfu-select [selected]="this.idPeriodoSelecionado" 
+              [entidades]="this.lstPeriodo"
+              (selectedChange)="onSelectedChangePeriodo($event)">        
+        </kungfu-select>
+        </div>
+       <kungfu-list [gamificacoes]="this.gamificacoes" [periodo]="this.idPeriodoSelecionado" ></kungfu-list>
+   </div>
 </div>
 
 <footer class="container-fluid text-center">

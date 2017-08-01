@@ -19,13 +19,20 @@ export class GamificacaoService {
       .toPromise()
       .catch(this.errorHandler);
   }
-
+  
   getGamificacoes() {
     return this.http.get(`${this.baseUrl}/gamificacoes`)
       .toPromise()
       .then(response => response.json())
       .catch(this.errorHandler);
   }
+  
+  getGamificacoesPorPerido(idPeriodo) {
+	    return this.http.get(`${this.baseUrl}/gamificacoesPorPeriodo/${idPeriodo}`)
+	      .toPromise()
+	      .then(response => response.json())
+	      .catch(this.errorHandler);
+	  }
 
   getEventos() {
     return this.http.get(`${this.baseUrl}/selecaoEventos`)
@@ -77,6 +84,13 @@ export class GamificacaoService {
       .then(response => response.json())
       .catch(this.errorHandler);
   }
+  
+  getHistoricoRanking() {
+	    return this.http.get(`${this.baseUrl}/historicoRanking`)
+	      .toPromise()
+	      .then(response => response.json())
+	      .catch(this.errorHandler);
+	  }
   
   getPeriodoAtual() {
     return this.http.get(`${this.baseUrl}/periodoAtual`)

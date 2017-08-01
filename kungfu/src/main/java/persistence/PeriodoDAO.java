@@ -51,8 +51,16 @@ public class PeriodoDAO extends GenericoDAO<Periodo> {
 		return null;
 	}
 
-	public List<Periodo> listar() {
+	public List<Periodo> listarDescendenter() {
 		String sql = "select a from Periodo a order by a.dataInicio desc";
+
+		TypedQuery<Periodo> query = getEntityManager().createQuery(sql, Periodo.class);
+		List<Periodo> resultado = query.getResultList();
+		return resultado;
+	}
+	
+	public List<Periodo> listarAscendente() {
+		String sql = "select a from Periodo a order by a.dataInicio asc";
 
 		TypedQuery<Periodo> query = getEntityManager().createQuery(sql, Periodo.class);
 		List<Periodo> resultado = query.getResultList();

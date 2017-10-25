@@ -1,0 +1,81 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Ranking Sumário'" [icon]="'fa-chart'"></app-page-header>
+    <div class="container">
+        <p>
+            <div class="panel panel-primary">
+                <!--
+                <div class="form-group">
+                    <div class="col col-lg-6 col-lg-6">
+                        <h5><b>Exercício Selecionado</b></h5>
+                        <select (change)='this.onSelectedChangeExercicio($event)' class="form-control">
+                               <option *ngFor='let entidade of this.lstExercicios' 
+                               [value]='entidade.id' [selected]='this.isSelected(entidade)' >
+                                  {{entidade.descricao}}
+                              </option>             
+                           </select>
+                    </div>
+                </div>
+                -->
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <table class="table table-striped" style="border-collapse: collapse;">
+                            <tr>
+                                <td>
+                                    <div align="center"><b>Faixas</b></div>
+                                </td>
+                                <!-- Faixa Preta -->
+                                <td bgcolor="black"></td>
+                                <!-- Faixa Marrom -->
+                                <td bgcolor="#7A6060"></td>
+                                <!-- Faixa Roxa -->
+                                <td bgcolor="#9049A2"></td>
+                                <!-- Faixa Azul -->
+                                <td bgcolor="blue"></td>
+                                <!-- Faixa Branca -->
+                                <td bgcolor="#ffffff"></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div align="center"><b>AVATAR</b></div>
+                                </td>
+                                <!-- Faixa Preta -->
+                                <td align="center"><img src="./assets/images/faixaPreta.png" height="50" width="50">
+                                </td>
+                                <!-- Faixa Marrom -->
+                                <td align="center"><img src="./assets/images/faixaMarrom.png" height="50" width="50">
+                                </td>
+                                <!-- Faixa Roxa -->
+                                <td align="center"><img src="./assets/images/faixaRoxa.png" height="50" width="50">
+                                </td>
+                                <!-- Faixa Azul -->
+                                <td align="center"><img src="./assets/images/faixaAzul.png" height="50" width="50"></td>
+                                <!-- Faixa Branca -->
+                                <td align="center"><img src="./assets/images/faixaBranca.png" height="50" width="50"></td>
+                            </tr>
+
+                            <tr *ngFor="let ranking of rankings">
+                                <td>
+                                    {{ranking.apelido}}
+                                </td>
+                                <td>
+                                    <div align="center"><b>{{ranking.qtdFaixaPreta}}</b></div>
+                                </td>
+                                <td>
+                                    <div align="center"><b>{{ranking.qtdFaixaMarrom}}</b></div>
+                                </td>
+                                <td>
+                                    <div align="center"><b>{{ranking.qtdFaixaRoxa}}</b></div>
+                                </td>
+                                <td>
+                                    <div align="center"><b>{{ranking.qtdFaixaAzul}}</b></div>
+                                </td>
+                                <td>
+                                    <div align="center"><b>{{ranking.qtdFaixaBranca}}</b></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>

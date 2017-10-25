@@ -1,0 +1,48 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Ranking'" [icon]="'fa-chart'"></app-page-header>
+    <div class="container">
+        <p>
+            <div class="panel panel-primary">
+                <div class="form-group">
+                    <div class="col col-lg-6 col-lg-6">
+                        <h5><b>Período Selecionado</b></h5>
+                        <select (change)='this.onSelectedChange($event)' class="form-control">
+                               <option *ngFor='let entidade of this.lstSelecaoPeriodo' 
+                               [value]='entidade.id' [selected]='this.isSelected(entidade)' >
+                                  {{entidade.descricao}}
+                              </option>             
+                           </select>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Participante</th>
+                                <th>
+                                    <div align="center">Pontuação</div>
+                                </th>
+                                <th>
+                                    <div align="center">Faixa</div>
+                                </th>
+                                <th>
+                                    <div align="center">Avatar</div>
+                                </th>
+                            </tr>
+                            <tr *ngFor="let ranking of rankings">
+                                <td>
+                                    {{ranking.apelido}}
+                                </td>
+                                <td align="center">{{ranking.pontuacao}}</td>
+                                <td align="center" [attr.bgcolor]='ranking.cor'>{{ranking.nivel}}</td>
+                                <td align="center">
+                                    <img src="assets/images/{{ranking.avatar}}.png" alt="{{ranking.avatar}}" height="50" width="50">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

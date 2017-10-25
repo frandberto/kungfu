@@ -1,0 +1,69 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Meu Desempenho'" [icon]="'fa-area-chart'"></app-page-header>
+
+    <div class="row">
+        <!-- Representação de pontuação de eventos em gráfico Polar -->
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Frequência de Participação em Eventos por Período
+                </div>
+                <div class="form-group">
+                    <div class="col col-sm-6">
+                        <h5><b>Período Selecionado</b></h5>
+                        <select (change)='this.onSelectedChange($event)' class="form-control">
+                               <option value="">(Selecione o período)</option>
+                               <option *ngFor='let entidade of this.lstSelecaoPeriodo' 
+                               [value]='entidade.id' [selected]='this.isSelected(entidade)' >
+                                  {{entidade.descricao}}
+                              </option>             
+                           </select>
+                    </div>
+                </div>
+                <div class="card-block" >
+                    <ngx-charts-gauge
+                    [view]="view"                    
+                    [results]="gaugeChartData"
+                    [min]="0"
+                    [max]="50"
+                    [angleSpan]="240"
+                    [startAngle]="-120"
+                    [units]="'Eventos'"
+                    [bigSegments]="20"
+                    [smallSegments]="5"
+                    [legend]="showLegend"
+                    (select)="onSelect($event)">
+                  </ngx-charts-gauge>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Representação de progresso da pontuação em Linha -->
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Evolução da Pontuação
+                </div>
+                <div class="form-group">
+                    <div class="col col-sm-6">
+                        <h5><b>Ano Selecionado</b></h5>
+                        <select (change)='this.onSelectedAnoChange($event)' class="form-control">
+                               <option value="">(Selecione o ano)</option>
+                               <option *ngFor='let entidade of this.lstSelecaoAno' 
+                               [value]='entidade.id' [selected]='this.isSelectedAno(entidade)' >
+                                  {{entidade.descricao}}
+                              </option>             
+                           </select>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="this.lineChartData" [gradient]="gradient" [xAxis]="showXAxis"
+                        [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="'Quadrimestres'" [yAxisLabel]="'Pontuações'" [autoScale]="autoScale" legendTitle="Pontuações">
+                    </ngx-charts-line-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

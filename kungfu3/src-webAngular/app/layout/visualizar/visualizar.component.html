@@ -1,0 +1,63 @@
+<div [@routerTransition]>
+    
+    <app-page-header [heading]="'Visualizar'" [icon]="'fa-table'"></app-page-header>
+    
+    <div class="row">        
+        <div class="col col-lg-12">            
+            <div class="card mb-3">
+                <div class="panel panel-primary">
+                   <div class="form-group">
+                       <div class="col col-lg-6 col-lg-6">
+                           <h5><b>Período Selecionado</b></h5>
+                           <select (change)='this.onSelectedChange($event)' 
+                            class="form-control">
+                               <option *ngFor='let entidade of this.lstSelecaoPeriodo' 
+                               [value]='entidade.id' [selected]='this.isSelected(entidade)' >
+                                  {{entidade.descricao}}
+                              </option>             
+                           </select>
+                       </div>
+                   </div>
+                  <div class="card-header">Eventos Realizados</div>
+<div class="card-block table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Participante</th>
+                <th>
+                    <div align="center">Data</div>
+                </th>
+                <th>Evento</th>
+                <th>
+                    <div align="center">Pontuação</div>
+                </th>
+                <th>Observação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let gamificacao of gamificacoes">
+                <input type="hidden" value="{{gamificacao.idGamificacao}}">
+                <td>
+                    {{gamificacao.apelido}}
+                </td>
+                <td align='center'>
+                    {{ this.getDataFormatada(gamificacao.dataRegistro) }}
+                </td>
+                <td>
+                    {{gamificacao.nomeEvento}}
+                </td>
+                <td align='center'>
+                    {{gamificacao.pontuacao}}
+                </td>
+                <td>
+                    {{gamificacao.observacao}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>             
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
